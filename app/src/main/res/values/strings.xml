@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Movie Surfer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image_backdrop">Image Backdrop</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="popular_tv">Popular Tv Show</string>
+    <string name="this_week_s_top_movies">This week top Movies pick for you!</string>
+    <string name="popular_tv_desc">Get ready for binge watching!</string>
+    <string name="total_rate">/10</string>
+    <string name="storyline">Storyline</string>
+    <string name="genres">Genres</string>
+    <string name="plot_summary">Plot Summary</string>
+    <string name="details">Details</string>
+    <string name="release_date">Release Date</string>
+    <string name="country_of_origin">Country of Origin</string>
+    <string name="languange_spoken">Languange Spoken</string>
+    <string name="original_title">Original Title</string>
+    <string name="posters_and_images">Posters and Images</string>
+    <string name="inthea">In Theaters %1$s</string>
+    <string name="braces"> (%1$s) </string>
+    <string name="rating">%1$s/10</string>
+    <string name="no_rating">No Rating Information</string>
+    <string name="seasons">Seasons</string>
+    <string name="season_template"><i>Season %1$d</i></string>
+    <string name="season_episode_template">%1$d Episodes</string>
+    <string name="season_airing_template">Airing %1$s</string>
+    <string name="loading_your_data">Loading Your Data..</string>
+    <string name="logo">Logo</string>
+    <string name="fetching_data">Fetching Data..</string>
+    <string name="no_info">No Information</string>
+</resources>

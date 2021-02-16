@@ -1,0 +1,52 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="chipStyle">@style/Widget.App.Chip</item>
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.Launcher">
+<!--        <item name="android:windowBackground">@drawable/launch_screen</item>-->
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Image25" parent="@android:style/Widget.Holo.Light.Button.Borderless.Small">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="SearchViewTheme" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:textColorHint">@color/colorGrey</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:iconifiedByDefault">false</item>
+        <item name="android:background">@null</item>
+        <item name="android:searchIcon">@null</item>
+        <item name="android:searchHintIcon" tools:targetApi="lollipop_mr1">@null</item>
+    </style>
+    <style name="Widget.App.Chip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="chipBackgroundColor">@color/colorPrimary</item>
+        <item name="rippleColor">@color/colorPrimaryDark</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipStrokeColor">@color/colorPrimary</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialComponents.Chip</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MaterialComponents.Chip" parent="">
+        <item name="cornerSize">10%</item>
+        <item name="chipBackgroundColor">@android:color/white</item>
+    </style>
+</resources>

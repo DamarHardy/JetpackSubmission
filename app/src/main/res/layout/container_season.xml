@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="2dp"
+    app:cardCornerRadius="4dp"
+    app:contentPaddingBottom="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/list_images"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:contentDescription="@string/image_backdrop"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/season_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="3"
+            android:textAlignment="center"
+            android:textSize="13sp"
+            tools:text="Season 1 : Harry Potter and The Chamber of Secret" />
+
+        <TextView
+            android:id="@+id/season_episode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="13sp"
+            tools:text="25 Episodes" />
+
+        <TextView
+            android:id="@+id/season_air"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textSize="13sp"
+            tools:text="Aired January 16, 2021" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

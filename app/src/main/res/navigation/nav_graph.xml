@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.damar.jetpacksubmission.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_mvDetailFragment"
+            app:destination="@id/mvDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tvDetailFragment"
+            app:destination="@id/tvDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mvDetailFragment"
+        android:name="com.damar.jetpacksubmission.ui.detail.MvDetailFragment"
+        android:label="fragment_mv_detail"
+        tools:layout="@layout/fragment_mv_detail" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/tvDetailFragment"
+        android:name="com.damar.jetpacksubmission.ui.detail.TvDetailFragment"
+        android:label="fragment_tv_detail"
+        tools:layout="@layout/fragment_tv_detail" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+</navigation>
