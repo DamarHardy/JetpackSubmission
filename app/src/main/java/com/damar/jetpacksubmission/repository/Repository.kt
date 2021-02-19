@@ -9,7 +9,6 @@ import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.network.*
-import com.damar.jetpacksubmission.network.entity.TvsTrendingNetworkEntity
 import com.damar.jetpacksubmission.utils.DataState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -8,29 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentMvDetailBinding
 import com.damar.jetpacksubmission.databinding.PopupLoadingBinding
-import com.damar.jetpacksubmission.local.LocalDatabase
 import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
-import com.damar.jetpacksubmission.repository.Repository
 import com.damar.jetpacksubmission.ui.MainActivity
-import com.damar.jetpacksubmission.ui.detail.adapter.BackdropsAdapter
-import com.damar.jetpacksubmission.ui.detail.adapter.ImagesAdapter
 import com.damar.jetpacksubmission.ui.detail.viewmodel.DetailViewModel
-import com.damar.jetpacksubmission.ui.detail.viewmodel.State
+import com.damar.jetpacksubmission.utils.DataState
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
-import com.damar.jetpacksubmission.utils.getViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.text.SimpleDateFormat
 import java.util.*
+
 @AndroidEntryPoint
+@ExperimentalCoroutinesApi
 class MvDetailFragment : Fragment() {
     private val detailVm: DetailViewModel by activityViewModels()
     private lateinit var binding: FragmentMvDetailBinding
@@ -40,22 +35,16 @@ class MvDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-//        detailVm.getDetailMv(MvDetailFragmentArgs.fromBundle(requireArguments()).id)
+        detailVm.getMovieDetail(MvDetailFragmentArgs.fromBundle(requireArguments()).id)
         loadingBuilder = AlertDialog.Builder(requireContext()).setView(PopupLoadingBinding.inflate(layoutInflater).root).setCancelable(false).create()
         detailVm.detail.observe(viewLifecycleOwner, {
             when (it) {
-                is State.Loading -> {
-                    println(it.message)
-                    loadingBuilder.show()
-                }
-                is State.Success -> {
-                    println("${it.body}")
+                is DataState.Error -> println(it.e)
+                is DataState.Loading -> loadingBuilder.show()
+                is DataState.Success -> {
                     updateUI(it.body)
                     loadingBuilder.hide()
                     EspressoIdlingResource.decrement()
-                }
-                is State.Failed -> {
-                    println(it.message)
                 }
             }
         })
@@ -67,21 +56,20 @@ class MvDetailFragment : Fragment() {
         if(body is DetailMv){
             binding.itemTitleDetail.text = body.originalTitle
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-            body.releaseDate?.let {
-                println(it)
+            body.releaseDate.let {
                 val date = dateFormatter.parse(it)
                 val finalDate = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH).format(date!!)
                 binding.itemReleaseDetail.text = getString(R.string.inthea, finalDate)
                 binding.itemReleaseDetail2.text = finalDate
             }
-            body.genres?.let {
+            body.genres.let {
                 it.forEach { item ->
                     val chip = Chip(requireContext())
-                    chip.text = item?.name
+                    chip.text = item.name
                     binding.genreChipGroup.addView(chip)
 
                     val chip1 = Chip(requireContext())
-                    chip1.text = item?.name
+                    chip1.text = item.name
                     binding.otherChipGenre.addView(chip1)
                 }
             }
@@ -89,16 +77,8 @@ class MvDetailFragment : Fragment() {
             binding.itemDescFullDetail.text = body.overview
             binding.itemVoteAverage.text = body.voteAverage.toString()
             binding.itemTotalVote.text = getString(R.string.braces, body.voteCount.toString())
-            if(body.productionCountries == null){
-                binding.itemCountryOriginDetail.text = this.getString(R.string.no_info)
-            }else{
-                body.productionCountries.let {
-                    if(it[0] !=null){
-                        binding.itemCountryOriginDetail.text = it[0]?.iso31661
-                    }else{
-                        binding.itemCountryOriginDetail.text = this.getString(R.string.no_info)
-                    }
-                }
+            body.productionCountries.let {
+                binding.itemCountryOriginDetail.text = it[0].iso31661
             }
             binding.itemLanguageDetail.text = body.originalLanguage
             binding.itemOriginalTitleDetail.text = body.originalTitle
@@ -118,8 +98,9 @@ class MvDetailFragment : Fragment() {
     private fun println(s: String){
         Log.d(TAG, s)
     }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).setToolbar(binding.toolbar, false)
         binding.toolbar.title = "IMovie"
     }

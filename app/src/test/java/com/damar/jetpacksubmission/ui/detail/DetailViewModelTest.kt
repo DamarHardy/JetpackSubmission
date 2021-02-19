@@ -1,106 +1,124 @@
 package com.damar.jetpacksubmission.ui.detail
-//
-//import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-//import androidx.lifecycle.Observer
-//import com.damar.jetpacksubmission.CoroutinesTestRule
-//import com.damar.jetpacksubmission.models.DetailMv
-//import com.damar.jetpacksubmission.models.DetailTv
-//import com.damar.jetpacksubmission.repository.Repository
-//import com.damar.jetpacksubmission.ui.detail.viewmodel.DetailViewModel
-//import io.mockk.MockKAnnotations
-//import io.mockk.coEvery
-//import io.mockk.coVerify
-//import io.mockk.impl.annotations.MockK
-//import io.mockk.impl.annotations.RelaxedMockK
-//import io.mockk.mockk
-//import kotlinx.coroutines.ExperimentalCoroutinesApi
-//import kotlinx.coroutines.test.runBlockingTest
-//import org.junit.Assert.assertEquals
-//import org.junit.Assert.assertNotNull
-//import org.junit.Before
-//import org.junit.Rule
-//import org.junit.Test
-//import org.mockito.ArgumentMatchers.anyInt
-//
-//@ExperimentalCoroutinesApi
-//class DetailViewModelTest{
-//
-//    @RelaxedMockK private lateinit var repository: Repository
-//    private lateinit var detailViewModel: DetailViewModel
-//
-//    @MockK
-//    private lateinit var observerMv: Observer<Any>
-//
-//    @get:Rule
-//    val instantExecutorRule = InstantTaskExecutorRule()
-//
-//    @get:Rule
-//    var coroutineTestRule = CoroutinesTestRule()
-//
-//    @Before
-//    fun setUp() {
-//        MockKAnnotations.init(this,relaxed = true, relaxUnitFun = true)
-//    }
-//
-//    @Test
-//    fun testGetDetailMv_returnDetailMv() {
-//        val detailMv: DetailMv = mockk()
-//        coEvery { repository.getDetailMv(anyInt()) } returns detailMv
-//        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
-//        detailViewModel.detail.observeForever(observerMv)
-//
-//        coroutineTestRule.testDispatcher.runBlockingTest {
-//            detailViewModel.detail.observeForever {
-//                detailViewModel.getDetailMv(anyInt())
-//                coVerify { repository.getDetailMv(anyInt()) }
-//                assertNotNull(it)
-//                assertEquals(detailMv, it)
-//            }
-//        }
-//    }
-//    @Test
-//    fun testGetDetailMv_returnNull() {
-//        coEvery { repository.getDetailMv(anyInt()) } returns null
-//        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
-//        detailViewModel.detail.observeForever(observerMv)
-//
-//        coroutineTestRule.testDispatcher.runBlockingTest {
-//            detailViewModel.detail.observeForever {
-//                detailViewModel.getDetailMv(anyInt())
-//                coVerify { repository.getDetailMv(anyInt()) }
-//                assertEquals(null, it)
-//            }
-//        }
-//    }
-//
-//    @Test
-//    fun testGetDetailTv_returnDetailTv() {
-//        val detailTv: DetailTv = mockk()
-//        coEvery { repository.getDetailTv(anyInt()) } returns detailTv
-//        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
-//        detailViewModel.detail.observeForever(observerMv)
-//
-//        coroutineTestRule.testDispatcher.runBlockingTest {
-//            detailViewModel.detail.observeForever{
-//                detailViewModel.getDetailTv(anyInt())
-//                coVerify { repository.getDetailTv(anyInt()) }
-//                assertNotNull(detailViewModel.detail.value)
-//                assertEquals(detailTv, it)
-//            }
-//        }
-//    }
-//    @Test
-//    fun testGetDetailTv_returnNull() {
-//        coEvery { repository.getDetailTv(anyInt()) } returns null
-//        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
-//        detailViewModel.detail.observeForever(observerMv)
-//
-//        coroutineTestRule.testDispatcher.runBlockingTest {
-//            detailViewModel.detail.observeForever{
-//                detailViewModel.getDetailTv(anyInt())
-//                coVerify { repository.getDetailTv(anyInt()) }
-//                assertEquals(null, it)
-//            }
-//        }
-//    }
-//}
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.SavedStateHandle
+import com.damar.jetpacksubmission.CoroutinesTestRule
+import com.damar.jetpacksubmission.models.DetailMv
+import com.damar.jetpacksubmission.models.DetailTv
+import com.damar.jetpacksubmission.repository.Repository
+import com.damar.jetpacksubmission.ui.detail.viewmodel.DetailViewModel
+import com.damar.jetpacksubmission.utils.DataState
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
+import java.io.IOException
+
+@ExperimentalCoroutinesApi
+class DetailViewModelTest{
+
+    @RelaxedMockK private lateinit var repository: Repository
+    @RelaxedMockK private lateinit var handle: SavedStateHandle
+    private lateinit var detailViewModel: DetailViewModel
+
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var coroutineTestRule = CoroutinesTestRule()
+
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this,relaxed = true, relaxUnitFun = true)
+    }
+
+    @Test
+    fun getDetailMovieSuccess() {
+        val movie: DetailMv = mockk()
+        val movieFlow: Flow<DataState<DetailMv>> = flow {
+            emit(DataState.Loading)
+            emit(DataState.Success(movie))
+        }
+        coEvery { repository.getDetailMovie(anyInt()) } returns movieFlow
+
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.getMovieDetail(anyInt())
+            detailViewModel.detail.observeForever{
+                if(it!=null && it is DataState.Success){
+                    if(it.body is DetailMv){
+                        assertEquals(it.body, movie)
+                    }
+                }
+            }
+        }
+    }
+    @Test
+    fun getDetailMovieError() {
+        val error = IOException("Network Error")
+        val movieFlow: Flow<DataState<DetailMv>> = flow {
+            emit(DataState.Loading)
+            emit(DataState.Error(error.message!!))
+        }
+        coEvery { repository.getDetailMovie(anyInt()) } returns movieFlow
+
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.getMovieDetail(anyInt())
+            detailViewModel.detail.observeForever{
+                if(it!=null && it is DataState.Error){
+                    assertEquals(it.e, error.message)
+                }
+            }
+        }
+    }
+    @Test
+    fun getDetailTvSuccess() {
+        val tv: DetailTv = mockk()
+        val tvFlow: Flow<DataState<DetailTv>> = flow {
+            emit(DataState.Loading)
+            emit(DataState.Success(tv))
+        }
+        coEvery { repository.getDetailTv(anyInt()) } returns tvFlow
+
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.getTvDetail(anyInt())
+            detailViewModel.detail.observeForever{
+                if(it!=null && it is DataState.Success){
+                    if(it.body is DetailTv){
+                        assertEquals(it.body, tv)
+                    }
+                }
+            }
+        }
+    }
+    @Test
+    fun getDetailTvError() {
+        val error = IOException("Network Error")
+        val tvFlow: Flow<DataState<DetailTv>> = flow {
+            emit(DataState.Loading)
+            emit(DataState.Error(error.message!!))
+        }
+        coEvery { repository.getDetailTv(anyInt()) } returns tvFlow
+
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.getTvDetail(anyInt())
+            detailViewModel.detail.observeForever{
+                if(it!=null && it is DataState.Error){
+                    assertEquals(it.e, error.message)
+                }
+            }
+        }
+    }
+}

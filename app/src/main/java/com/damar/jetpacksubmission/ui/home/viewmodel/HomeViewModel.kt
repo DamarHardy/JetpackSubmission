@@ -1,46 +1,110 @@
 package com.damar.jetpacksubmission.ui.home.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
+import com.damar.jetpacksubmission.models.Movie
+import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.repository.Repository
+import com.damar.jetpacksubmission.utils.DataState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val repository: Repository): ViewModel() {
-//    private var _tvTrending = MutableLiveData<MutableList<TvTrending>>(mutableListOf())
-//    private var _mvTrending = MutableLiveData<MutableList<MvTrending>>(mutableListOf())
-//    private var _mvPopular = MutableLiveData<MutableList<MvPopular>>(mutableListOf())
-//    private var _tvPopular = MutableLiveData<MutableList<TvPopular>>(mutableListOf())
-//
-//    val tvTrending: LiveData<MutableList<TvTrending>> get() = _tvTrending
-//    val mvTrending: LiveData<MutableList<MvTrending>> get() = _mvTrending
-//    val mvPopular : LiveData<MutableList<MvPopular>>  get() = _mvPopular
-//    val tvPopular : LiveData<MutableList<TvPopular>>  get() = _tvPopular
-//
-//    private var _selectedTv = MutableLiveData<Int>()
-//    private var _selectedMv = MutableLiveData<Int>()
-//    val selectedTv: LiveData<Int> get() = _selectedTv
-//    val selectedMv: LiveData<Int> get() = _selectedMv
-//
-//    fun setSelectedTv(id: Int){ _selectedTv.value = id}
-//    fun setSelectedMv(id: Int){ _selectedMv.value = id}
-//    fun nullSelectedTv() { _selectedTv.value = null}
-//    fun nullSelectedMv() { _selectedMv.value = null}
-//
-//
-//    fun loadData(){
-//        viewModelScope.launch {
-//            launch {
-//                _tvTrending.value = repository.getTvTrending()}
-//            launch {
-//                _tvPopular.value = repository.getTvPopular()}
-//            launch {
-//                _mvTrending.value = repository.getMvTrending()}
-//            launch {
-//                _mvPopular.value = repository.getMvPopular()}
-//        }
-//    }
-//    private fun println(s: String){
-//        Log.d(TAG, s)
-//    }
-//    companion object {
-//        private const val TAG = "HomeViewModel"
-//    }
+@ExperimentalCoroutinesApi
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+        private val repository: Repository,
+        private val savedStateHandle: SavedStateHandle
+        ): ViewModel() {
+    private var _tvTrending = MutableLiveData<DataState<List<Tv>>>()
+    private var _mvTrending = MutableLiveData<DataState<List<Movie>>>()
+    private var _mvPopular = MutableLiveData<DataState<List<Movie>>>()
+    private var _tvPopular = MutableLiveData<DataState<List<Tv>>>()
+
+    val tvTrending: LiveData<DataState<List<Tv>>> get() = _tvTrending
+    val mvTrending: LiveData<DataState<List<Movie>>> get() = _mvTrending
+    val mvPopular : LiveData<DataState<List<Movie>>>  get() = _mvPopular
+    val tvPopular : LiveData<DataState<List<Tv>>>  get() = _tvPopular
+
+    private var _selectedTv = MutableLiveData<Int?>()
+    private var _selectedMv = MutableLiveData<Int?>()
+    val selectedTv: LiveData<Int?> get() = _selectedTv
+    val selectedMv: LiveData<Int?> get() = _selectedMv
+
+    fun setSelectedTv(id: Int){ _selectedTv.value = id }
+    fun setSelectedMovie(id: Int){ _selectedMv.value = id }
+
+    fun nullSelectedTv() { _selectedTv.value = null }
+    fun nullSelectedMv() { _selectedMv.value = null }
+
+
+    fun loadData(){
+        viewModelScope.launch(viewModelScope.coroutineContext) {
+            repository.getPopularTv().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Popular TV: ${it.body}")
+                        _tvPopular.value = it
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
+            repository.getTrendingTv().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Trending TV: ${it.body}")
+                        _tvTrending.value = it
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
+            repository.getPopularMovie().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Popular Movie: ${it.body}")
+                        _mvPopular.value = it
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
+            repository.getTrendingMovie().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Trending: Movie${it.body}")
+                        _mvTrending.value = it
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+    private fun println(s: String){
+        Log.d(TAG, s)
+    }
+    companion object {
+        private const val TAG = "HomeViewModel"
+    }
 }

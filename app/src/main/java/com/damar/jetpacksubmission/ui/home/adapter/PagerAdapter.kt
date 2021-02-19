@@ -10,9 +10,11 @@ import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
 import com.damar.jetpacksubmission.ui.home.viewmodel.HomeViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
- private lateinit var binding: ContainerPagerBinding
+@ExperimentalCoroutinesApi
 class PagerAdapter(private var data: MutableList<*>, private var viewModel: HomeViewModel): RecyclerView.Adapter<PagerAdapter.ViewHolder>() {
+    private lateinit var binding: ContainerPagerBinding
     inner class ViewHolder(binding: ContainerPagerBinding): RecyclerView.ViewHolder(binding.root){
         val imageBackdrop = binding.imageBackdrop
         val imagePoster = binding.imagePoster
@@ -34,18 +36,18 @@ class PagerAdapter(private var data: MutableList<*>, private var viewModel: Home
                 Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.backdropPath).placeholder(R.drawable.loading_image).into(holder.imageBackdrop)
                 holder.itemView.setOnClickListener {
                     if(it!=null){
-//                        viewModel.setSelectedMv(item.id!!)
+                        viewModel.setSelectedMovie(item.id)
                     }
                 }
             }
             is Tv -> {
                 holder.itemTitle.text = item.name
                 holder.itemDesc.text = item.overview
-                Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.posterPath).into(holder.imagePoster)
-                Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.backdropPath).into(holder.imageBackdrop)
+                Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.posterPath).placeholder(R.drawable.loading_image).into(holder.imagePoster)
+                Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.backdropPath).placeholder(R.drawable.loading_image).into(holder.imageBackdrop)
                 holder.itemView.setOnClickListener {
                     if(it!=null){
-//                        viewModel.setSelectedTv(item.id!!)
+                        viewModel.setSelectedTv(item.id)
                     }
                 }
             }

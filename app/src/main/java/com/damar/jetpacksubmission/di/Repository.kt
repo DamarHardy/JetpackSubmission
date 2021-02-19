@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Singleton
@@ -25,4 +26,7 @@ object Repository {
     ): Repository{
         return Repository(localRepo,remoteRepo, Dispatchers.IO, NetworkMapperMvDetail, NetworkMapperTvDetail)
     }
+    @Singleton
+    @Provides
+    fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }

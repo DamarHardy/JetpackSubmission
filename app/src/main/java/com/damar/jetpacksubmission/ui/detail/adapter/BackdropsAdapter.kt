@@ -9,8 +9,9 @@ import com.damar.jetpacksubmission.databinding.ContainerBackdropsDetailBinding
 import com.damar.jetpacksubmission.models.BackdropsItem
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
 
- private lateinit var binding: ContainerBackdropsDetailBinding
-class BackdropsAdapter(private var data: List<BackdropsItem?>): RecyclerView.Adapter<BackdropsAdapter.ViewHolder>() {
+
+class BackdropsAdapter(private var data: List<BackdropsItem>): RecyclerView.Adapter<BackdropsAdapter.ViewHolder>() {
+    private lateinit var binding: ContainerBackdropsDetailBinding
     inner class ViewHolder(binding: ContainerBackdropsDetailBinding): RecyclerView.ViewHolder(binding.root){
         val imageBackdrop = binding.listBackdrops
 
@@ -22,7 +23,7 @@ class BackdropsAdapter(private var data: List<BackdropsItem?>): RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        Glide.with(holder.itemView.context).load(BASE_IMG_URL+item?.filePath).placeholder(R.drawable.loading_image).into(holder.imageBackdrop)
+        Glide.with(holder.itemView.context).load(BASE_IMG_URL+ item.filePath).placeholder(R.drawable.loading_image).into(holder.imageBackdrop)
 
     }
     override fun getItemCount(): Int = data.size

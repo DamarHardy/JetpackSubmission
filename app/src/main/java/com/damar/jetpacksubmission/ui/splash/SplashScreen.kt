@@ -15,6 +15,7 @@ import com.damar.jetpacksubmission.utils.DataState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
+@ExperimentalCoroutinesApi
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {

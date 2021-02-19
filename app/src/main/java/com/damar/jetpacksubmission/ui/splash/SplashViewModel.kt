@@ -3,14 +3,12 @@ package com.damar.jetpacksubmission.ui.splash
 import android.util.Log
 import androidx.lifecycle.*
 import com.damar.jetpacksubmission.repository.Repository
-import com.damar.jetpacksubmission.ui.detail.viewmodel.State
 import com.damar.jetpacksubmission.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

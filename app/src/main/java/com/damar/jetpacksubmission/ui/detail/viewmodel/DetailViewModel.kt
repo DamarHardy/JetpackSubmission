@@ -1,46 +1,50 @@
 package com.damar.jetpacksubmission.ui.detail.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.damar.jetpacksubmission.repository.Repository
+import com.damar.jetpacksubmission.utils.DataState
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(private val repository: Repository, private val dispatcher: CoroutineDispatcher): ViewModel() {
-    private var _detail = MutableLiveData<State<Any>>()
-    val detail: LiveData<State<Any>> get()= _detail
+@ExperimentalCoroutinesApi
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+        private val repository: Repository,
+        private val dispatcher: CoroutineDispatcher,
+        private val savedStateHandle: SavedStateHandle
+        ): ViewModel() {
+    private var _detail = MutableLiveData<DataState<Any>>()
+    val detail: LiveData<DataState<Any>> get()= _detail
 
-//    fun getDetailMv(id: Int){
-//        EspressoIdlingResource.increment()
-//        viewModelScope.launch(dispatcher) {
-//            _detail.postValue(State.Loading())
-//            val result = repository.getDetailMv(id)
-//            if(result!=null){
-//                _detail.postValue(State.Success(result))
-//            }else{
-//                _detail.postValue(State.Failed())
-//            }
-//        }
-//    }
-//    fun getDetailTv(id: Int){
-//        EspressoIdlingResource.increment()
-//        viewModelScope.launch {
-//            _detail.postValue(State.Loading())
-//            val result = repository.getDetailTv(id)
-//            if(result!=null){
-//                _detail.postValue(State.Success(result))
-//            }else{
-//                _detail.postValue(State.Failed())
-//            }
-//        }
-//    }
-}
-
-sealed class State<out T: Any>{
-    data class Success<T: Any>(val body: T, val message: String = "SUCCESS"): State<T>()
-    data class Failed(val message: String = "FAILED"): State<Nothing>()
-    data class Loading(val message: String = "LOADING"): State<Nothing>()
+    fun getMovieDetail(id: Int){
+        EspressoIdlingResource.increment()
+        viewModelScope.launch(dispatcher) {
+            repository.getDetailMovie(id).onEach {
+                when(it){
+                    is DataState.Error -> _detail.value = it
+                    is DataState.Loading -> _detail.value = it
+                    is DataState.Success -> _detail.value = it
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+    fun getTvDetail(id: Int){
+        EspressoIdlingResource.increment()
+        viewModelScope.launch {
+            repository.getDetailTv(id).onEach {
+                when(it){
+                    is DataState.Error -> _detail.value = it
+                    is DataState.Loading -> _detail.value = it
+                    is DataState.Success -> _detail.value = it
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
 }
