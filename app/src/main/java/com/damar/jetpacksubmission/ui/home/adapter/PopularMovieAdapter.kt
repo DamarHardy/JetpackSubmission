@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.ContainerRvBinding
-import com.damar.jetpacksubmission.models.MvPopular
-import com.damar.jetpacksubmission.models.TvPopular
+import com.damar.jetpacksubmission.models.Movie
+import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
 import com.damar.jetpacksubmission.ui.home.viewmodel.HomeViewModel
 import java.text.SimpleDateFormat
@@ -30,7 +30,7 @@ class PopularMovieAdapter(private var data: MutableList<*>, private val viewMode
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when(val item = data[position]){
-            is MvPopular -> {
+            is Movie -> {
                 holder.itemTitle.text = item.title
                 holder.itemDesc.text = item.overview
                 if(item.voteAverage!=0.0 && item.voteAverage!=null){
@@ -47,11 +47,11 @@ class PopularMovieAdapter(private var data: MutableList<*>, private val viewMode
                 Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.posterPath).placeholder(R.drawable.loading_image).into(holder.imagePoster)
                 holder.itemView.setOnClickListener {
                     if(it!=null){
-                        viewModel.setSelectedMv(item.id!!)
+//                        viewModel.setSelectedMv(item.id!!)
                     }
                 }
             }
-            is TvPopular -> {
+            is Tv -> {
                 holder.itemTitle.text = item.name
                 holder.itemDesc.text = item.overview
                 if(item.voteAverage!=0.0 && item.voteAverage!=null){
@@ -68,7 +68,7 @@ class PopularMovieAdapter(private var data: MutableList<*>, private val viewMode
                 Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.posterPath).placeholder(R.drawable.loading_image).into(holder.imagePoster)
                 holder.itemView.setOnClickListener {
                     if(it!=null){
-                        viewModel.setSelectedTv(item.id!!)
+//                        viewModel.setSelectedTv(item.id!!)
                     }
                 }
             }

@@ -4,24 +4,21 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.lifecycleScope
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.ActivitySplashScreenBinding
-import com.damar.jetpacksubmission.local.LocalDatabase
-import com.damar.jetpacksubmission.repository.RemoteRepo
-import com.damar.jetpacksubmission.repository.Repository
 import com.damar.jetpacksubmission.ui.MainActivity
-import com.damar.jetpacksubmission.ui.detail.viewmodel.State
-import com.damar.jetpacksubmission.utils.getViewModel
+import com.damar.jetpacksubmission.utils.DataState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
 @Suppress("DEPRECATION")
+@AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {
-    private val viewModel: SplashViewModel by lazy {
-        this.getViewModel { SplashViewModel(Repository(LocalDatabase.getInstance(this.applicationContext).localRepo, RemoteRepo.instance, Dispatchers.IO)) }
-    }
+    private val viewModel: SplashViewModel by viewModels()
     private lateinit var binding: ActivitySplashScreenBinding
     private lateinit var customListener: MotionLayout.TransitionListener
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +33,7 @@ class SplashScreen : AppCompatActivity() {
             override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) { }
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-                if(viewModel.state.value == State.Loading()){
+                if(viewModel.state.value == DataState.Loading){
                     startMiddleAnim()
                 }else{
                     if(viewModel.state.value != null){

@@ -1,246 +1,95 @@
 package com.damar.jetpacksubmission.models
 
-import com.squareup.moshi.Json
-
 data class DetailTv(
-
-	@Json(name="original_language")
-	val originalLanguage: String? = null,
-
-	@Json(name="number_of_episodes")
-	val numberOfEpisodes: Int? = null,
-
-	@Json(name="networks")
-	val networks: List<NetworksItem?>? = null,
-
-	@Json(name="type")
-	val type: String? = null,
-
-	@Json(name="backdrop_path")
-	val backdropPath: String? = null,
-
-	@Json(name="genres")
-	val genres: List<GenresItem?>? = null,
-
-	@Json(name="popularity")
-	val popularity: Double? = null,
-
-	@Json(name="production_countries")
-	val productionCountries: List<ProductionCountriesItem?>? = null,
-
-	@Json(name="id")
-	val id: Int? = null,
-
-	@Json(name="number_of_seasons")
-	val numberOfSeasons: Int? = null,
-
-	@Json(name="vote_count")
-	val voteCount: Int? = null,
-
-	@Json(name="first_air_date")
-	val firstAirDate: String? = null,
-
-	@Json(name="overview")
-	val overview: String? = null,
-
-	@Json(name="seasons")
-	val seasons: List<SeasonsItem?>? = null,
-
-	@Json(name="images")
-	val images: Images? = null,
-
-	@Json(name="languages")
-	val languages: List<String?>? = null,
-
-	@Json(name="created_by")
-	val createdBy: List<CreatedByItem?>? = null,
-
-	@Json(name="last_episode_to_air")
-	val lastEpisodeToAir: LastEpisodeToAir? = null,
-
-	@Json(name="poster_path")
-	val posterPath: String? = null,
-
-	@Json(name="origin_country")
-	val originCountry: List<String?>? = null,
-
-	@Json(name="spoken_languages")
-	val spokenLanguages: List<SpokenLanguagesItem?>? = null,
-
-	@Json(name="production_companies")
-	val productionCompanies: List<ProductionCompaniesItem?>? = null,
-
-	@Json(name="original_name")
-	val originalName: String? = null,
-
-	@Json(name="vote_average")
-	val voteAverage: Double? = null,
-
-	@Json(name="name")
-	val name: String? = null,
-
-	@Json(name="tagline")
-	val tagline: String? = null,
-
-	@Json(name="episode_run_time")
-	val episodeRunTime: List<Int?>? = null,
-
-	@Json(name="next_episode_to_air")
-	val nextEpisodeToAir: NextEpisodeToAir? = null,
-
-	@Json(name="in_production")
-	val inProduction: Boolean? = null,
-
-	@Json(name="last_air_date")
-	val lastAirDate: String? = null,
-
-	@Json(name="homepage")
-	val homepage: String? = null,
-
-	@Json(name="status")
-	val status: String? = null
+	val originalLanguage: String,
+	val numberOfEpisodes: Int,
+	val networks: List<NetworksItem>,
+	val type: String,
+	val backdropPath: String,
+	val genres: List<GenresItem>,
+	val popularity: Double,
+	val productionCountries: List<ProductionCountriesItem>,
+	val id: Int,
+	val numberOfSeasons: Int,
+	val voteCount: Int,
+	val firstAirDate: String,
+	val overview: String,
+	val seasons: List<SeasonsItem>,
+	val images: Images,
+	val languages: List<String>,
+	val createdBy: List<CreatedByItem>,
+	val posterPath: String,
+	val originCountry: List<String>,
+	val spokenLanguages: List<SpokenLanguagesItem>,
+	val productionCompanies: List<ProductionCompaniesItem>,
+	val originalName: String,
+	val voteAverage: Double,
+	val name: String,
+	val tagLine: String,
+	val episodeRunTime: List<Int>,
+	val inProduction: Boolean,
+	val lastAirDate: String,
+	val homepage: String,
+	val status: String
 )
 
 data class SeasonsItem(
-
-	@Json(name="air_date")
-	val airDate: String? = null,
-
-	@Json(name="overview")
-	val overview: String? = null,
-
-	@Json(name="episode_count")
-	val episodeCount: Int? = null,
-
-	@Json(name="name")
-	val name: String? = null,
-
-	@Json(name="season_number")
-	val seasonNumber: Int? = null,
-
-	@Json(name="id")
-	val id: Int? = null,
-
-	@Json(name="poster_path")
-	val posterPath: String? = null
+	val airDate: String,
+	val overview: String,
+	val episodeCount: Int,
+	val name: String,
+	val seasonNumber: Int,
+	val id: Int,
+	val posterPath: String
 )
 
 data class NextEpisodeToAir(
-
-	@Json(name="production_code")
-	val productionCode: String? = null,
-
-	@Json(name="air_date")
-	val airDate: String? = null,
-
-	@Json(name="overview")
-	val overview: String? = null,
-
-	@Json(name="episode_number")
-	val episodeNumber: Int? = null,
-
-	@Json(name="vote_average")
-	val voteAverage: Double? = null,
-
-	@Json(name="name")
-	val name: String? = null,
-
-	@Json(name="season_number")
-	val seasonNumber: Int? = null,
-
-	@Json(name="id")
-	val id: Int? = null,
-
-	@Json(name="still_path")
-	val stillPath: Any? = null,
-
-	@Json(name="vote_count")
-	val voteCount: Int? = null
+	val productionCode: String,
+	val airDate: String,
+	val overview: String,
+	val episodeNumber: Int,
+	val voteAverage: Double,
+	val name: String,
+	val seasonNumber: Int,
+	val id: Int,
+	val stillPath: Any,
+	val voteCount: Int
 )
-
 data class LastEpisodeToAir(
-
-	@Json(name="production_code")
-	val productionCode: String? = null,
-
-	@Json(name="air_date")
-	val airDate: String? = null,
-
-	@Json(name="overview")
-	val overview: String? = null,
-
-	@Json(name="episode_number")
-	val episodeNumber: Int? = null,
-
-	@Json(name="vote_average")
-	val voteAverage: Double? = null,
-
-	@Json(name="name")
-	val name: String? = null,
-
-	@Json(name="season_number")
-	val seasonNumber: Int? = null,
-
-	@Json(name="id")
-	val id: Int? = null,
-
-	@Json(name="still_path")
-	val stillPath: String? = null,
-
-	@Json(name="vote_count")
-	val voteCount: Int? = null
+	val productionCode: String,
+	val airDate: String,
+	val overview: String,
+	val episodeNumber: Int,
+	val voteAverage: Double,
+	val name: String,
+	val seasonNumber: Int,
+	val id: Int,
+	val stillPath: String,
+	val voteCount: Int
 )
 
 data class Images(
-
-	@Json(name="backdrops")
-	val backdrops: List<BackdropsItem?>? = null,
-
-	@Json(name="posters")
-	val posters: List<PostersItem?>? = null
+	val backdrops: List<BackdropsItem>,
+	val posters: List<PostersItem>
 )
 
 data class NetworksItem(
-
-	@Json(name="logo_path")
-	val logoPath: String? = null,
-
-	@Json(name="name")
-	val name: String? = null,
-
-	@Json(name="id")
-	val id: Int? = null,
-
-	@Json(name="origin_country")
-	val originCountry: String? = null
+	val logoPath: String,
+	val name: String,
+	val id: Int,
+	val originCountry: String
 )
 
 data class CreatedByItem(
-
-	@Json(name="gender")
-	val gender: Int? = null,
-
-	@Json(name="credit_id")
-	val creditId: String? = null,
-
-	@Json(name="name")
-	val name: String? = null,
-
-	@Json(name="profile_path")
-	val profilePath: Any? = null,
-
-	@Json(name="id")
-	val id: Int? = null
+	val gender: Int,
+	val creditId: String,
+	val name: String,
+	val profilePath: String,
+	val id: Int
 )
 
 data class SpokenLanguagesItem(
-
-	@Json(name="name")
-	val name: String? = null,
-
-	@Json(name="iso_639_1")
-	val iso6391: String? = null,
-
-	@Json(name="english_name")
-	val englishName: String? = null
+	val name: String,
+	val iso6391: String,
+	val englishName: String
 )

@@ -7,33 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentTvDetailBinding
 import com.damar.jetpacksubmission.databinding.PopupLoadingBinding
-import com.damar.jetpacksubmission.local.LocalDatabase
 import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
-import com.damar.jetpacksubmission.repository.RemoteRepo
-import com.damar.jetpacksubmission.repository.Repository
 import com.damar.jetpacksubmission.ui.MainActivity
-import com.damar.jetpacksubmission.ui.detail.adapter.BackdropsAdapter
-import com.damar.jetpacksubmission.ui.detail.adapter.ImagesAdapter
-import com.damar.jetpacksubmission.ui.detail.adapter.SeasonAdapter
 import com.damar.jetpacksubmission.ui.detail.viewmodel.DetailViewModel
 import com.damar.jetpacksubmission.ui.detail.viewmodel.State
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
-import com.damar.jetpacksubmission.utils.getViewModel
 import com.google.android.material.chip.Chip
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class TvDetailFragment : Fragment() {
-    private val detailVm by lazy {
-        requireActivity().getViewModel{ DetailViewModel(Repository(LocalDatabase.getInstance(requireContext().applicationContext).localRepo, RemoteRepo.instance, Dispatchers.IO), Dispatchers.IO) }
-    }
+    private val detailVm: DetailViewModel by activityViewModels()
     private lateinit var binding: FragmentTvDetailBinding
     private lateinit var loadingBuilder: AlertDialog
     override fun onCreateView(
@@ -41,7 +34,7 @@ class TvDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        detailVm.getDetailTv(TvDetailFragmentArgs.fromBundle(requireArguments()).id)
+//        detailVm.getDetailTv(TvDetailFragmentArgs.fromBundle(requireArguments()).id)
         loadingBuilder = AlertDialog.Builder(requireContext()).setView(PopupLoadingBinding.inflate(layoutInflater).root).setCancelable(false).create()
         detailVm.detail.observe(viewLifecycleOwner, {
             when (it) {
@@ -99,26 +92,26 @@ class TvDetailFragment : Fragment() {
             binding.itemOriginalTitleDetail.text = body.originalName
             Glide.with(requireContext()).load(BASE_IMG_URL + body.posterPath).placeholder(R.drawable.loading_image).into(binding.itemPosterDetail)
 
-            if(body.images!=null){
-                body.images.let {
-                    if(it.backdrops!=null){
-                        val backdropsAdapter = BackdropsAdapter(body.images.backdrops!!)
-                        binding.pagerDetailTv.adapter = backdropsAdapter
-                    }
+//            if(body.images!=null){
+//                body.images.let {
+//                    if(it.backdrops!=null){
+//                        val backdropsAdapter = BackdropsAdapter(body.images.backdrops!!)
+//                        binding.pagerDetailTv.adapter = backdropsAdapter
+//                    }
+//
+//                    if(it.posters!=null){
+//                        val imagesAdapter = ImagesAdapter(body.images.posters!!)
+//                        binding.imagesDetailRv.adapter = imagesAdapter
+//                    }
+//                }
+//            }
 
-                    if(it.posters!=null){
-                        val imagesAdapter = ImagesAdapter(body.images.posters!!)
-                        binding.imagesDetailRv.adapter = imagesAdapter
-                    }
-                }
-            }
-
-            if(body.seasons!=null){
-                body.seasons.let {
-                    val seasonAdapter = SeasonAdapter(it)
-                    binding.seasonListRv.adapter = seasonAdapter
-                }
-            }
+//            if(body.seasons!=null){
+//                body.seasons.let {
+//                    val seasonAdapter = SeasonAdapter(it)
+//                    binding.seasonListRv.adapter = seasonAdapter
+//                }
+//            }
             binding.seasonListRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             binding.imagesDetailRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }

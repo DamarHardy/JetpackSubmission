@@ -7,8 +7,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.damar.jetpacksubmission.R
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,31 +1,91 @@
 package com.damar.jetpacksubmission.ui.splash
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.damar.jetpacksubmission.repository.Repository
 import com.damar.jetpacksubmission.ui.detail.viewmodel.State
+import com.damar.jetpacksubmission.utils.DataState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SplashViewModel(private val repository: Repository): ViewModel() {
-    private var _state = MutableLiveData<State<Any>>()
-    val state: LiveData<State<Any>> get() = _state
+@HiltViewModel
+@ExperimentalCoroutinesApi
+class SplashViewModel @Inject constructor(
+        private val repository: Repository,
+        private val savedStateHandle: SavedStateHandle): ViewModel() {
+    private var _state = MutableLiveData<DataState<Any>>()
+    val state: LiveData<DataState<Any>> get() = _state
     suspend fun init(){
-        _state.value = State.Loading()
+        _state.value = DataState.Loading
         withContext(viewModelScope.coroutineContext) {
-            launch {
-                repository.getTvTrending()}
-            launch {
-                repository.getTvPopular()}
-            launch {
-                repository.getMvTrending()}
-            launch {
-                repository.getMvPopular()}
+            repository.getPopularTv().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Popular TV: ${it.body}")
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
+            repository.getTrendingTv().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Trending TV: ${it.body}")
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
+            repository.getPopularMovie().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Popular Movie: ${it.body}")
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
+            repository.getTrendingMovie().onEach {
+                when(it){
+                    is DataState.Success -> {
+                        println("Trending: Movie${it.body}")
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    is DataState.Loading -> {
+
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
         delay(2000)
-        _state.value = State.Success("Success")
+        _state.value = DataState.Success("Success")
     }
+
+    companion object {
+        private const val TAG = "SplashViewModel"
+    }
+    private fun println(s: String){
+        Log.d(TAG, s)
+    }
+
 }

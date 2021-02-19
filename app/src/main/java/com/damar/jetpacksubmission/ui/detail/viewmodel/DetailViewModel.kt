@@ -13,30 +13,30 @@ class DetailViewModel(private val repository: Repository, private val dispatcher
     private var _detail = MutableLiveData<State<Any>>()
     val detail: LiveData<State<Any>> get()= _detail
 
-    fun getDetailMv(id: Int){
-        EspressoIdlingResource.increment()
-        viewModelScope.launch(dispatcher) {
-            _detail.postValue(State.Loading())
-            val result = repository.getDetailMv(id)
-            if(result!=null){
-                _detail.postValue(State.Success(result))
-            }else{
-                _detail.postValue(State.Failed())
-            }
-        }
-    }
-    fun getDetailTv(id: Int){
-        EspressoIdlingResource.increment()
-        viewModelScope.launch {
-            _detail.postValue(State.Loading())
-            val result = repository.getDetailTv(id)
-            if(result!=null){
-                _detail.postValue(State.Success(result))
-            }else{
-                _detail.postValue(State.Failed())
-            }
-        }
-    }
+//    fun getDetailMv(id: Int){
+//        EspressoIdlingResource.increment()
+//        viewModelScope.launch(dispatcher) {
+//            _detail.postValue(State.Loading())
+//            val result = repository.getDetailMv(id)
+//            if(result!=null){
+//                _detail.postValue(State.Success(result))
+//            }else{
+//                _detail.postValue(State.Failed())
+//            }
+//        }
+//    }
+//    fun getDetailTv(id: Int){
+//        EspressoIdlingResource.increment()
+//        viewModelScope.launch {
+//            _detail.postValue(State.Loading())
+//            val result = repository.getDetailTv(id)
+//            if(result!=null){
+//                _detail.postValue(State.Success(result))
+//            }else{
+//                _detail.postValue(State.Failed())
+//            }
+//        }
+//    }
 }
 
 sealed class State<out T: Any>{

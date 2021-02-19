@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.ContainerPagerBinding
-import com.damar.jetpacksubmission.models.MvTrending
-import com.damar.jetpacksubmission.models.TvTrending
+import com.damar.jetpacksubmission.models.Movie
+import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
 import com.damar.jetpacksubmission.ui.home.viewmodel.HomeViewModel
 
@@ -27,25 +27,25 @@ class PagerAdapter(private var data: MutableList<*>, private var viewModel: Home
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when(val item = data[position]){
-            is MvTrending -> {
+            is Movie -> {
                 holder.itemTitle.text = item.title
                 holder.itemDesc.text = item.overview
                 Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.posterPath).placeholder(R.drawable.loading_image).into(holder.imagePoster)
                 Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.backdropPath).placeholder(R.drawable.loading_image).into(holder.imageBackdrop)
                 holder.itemView.setOnClickListener {
                     if(it!=null){
-                        viewModel.setSelectedMv(item.id!!)
+//                        viewModel.setSelectedMv(item.id!!)
                     }
                 }
             }
-            is TvTrending -> {
+            is Tv -> {
                 holder.itemTitle.text = item.name
                 holder.itemDesc.text = item.overview
                 Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.posterPath).into(holder.imagePoster)
                 Glide.with(holder.itemView.context).load(BASE_IMG_URL+item.backdropPath).into(holder.imageBackdrop)
                 holder.itemView.setOnClickListener {
                     if(it!=null){
-                        viewModel.setSelectedTv(item.id!!)
+//                        viewModel.setSelectedTv(item.id!!)
                     }
                 }
             }

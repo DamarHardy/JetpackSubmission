@@ -1,89 +1,89 @@
-package com.damar.jetpacksubmission.models
+package com.damar.jetpacksubmission.network.entity
 
 import com.squareup.moshi.Json
 
-data class DetailMv(
+data class DetailMvNetworkEntity(
 
-	@Json(name="original_language")
+		@Json(name="original_language")
 	val originalLanguage: String? = null,
 
-	@Json(name="imdb_id")
+		@Json(name="imdb_id")
 	val imdbId: String? = null,
 
-	@Json(name="video")
+		@Json(name="video")
 	val video: Boolean? = null,
 
-	@Json(name="title")
+		@Json(name="title")
 	val title: String? = null,
 
-	@Json(name="backdrop_path")
+		@Json(name="backdrop_path")
 	val backdropPath: String? = null,
 
-	@Json(name="revenue")
+		@Json(name="revenue")
 	val revenue: Int? = null,
 
-	@Json(name="genres")
-	val genres: List<GenresItem?>? = null,
+		@Json(name="genres")
+	val genres: List<GenresItemNetwork>? = null,
 
-	@Json(name="popularity")
+		@Json(name="popularity")
 	val popularity: Double? = null,
 
-	@Json(name="production_countries")
-	val productionCountries: List<ProductionCountriesItem?>? = null,
+		@Json(name="production_countries")
+	val productionCountries: List<ProductionCountriesItemNetwork>? = null,
 
-	@Json(name="id")
+		@Json(name="id")
 	val id: Int? = null,
 
-	@Json(name="vote_count")
+		@Json(name="vote_count")
 	val voteCount: Int? = null,
 
-	@Json(name="budget")
+		@Json(name="budget")
 	val budget: Int? = null,
 
-	@Json(name="overview")
+		@Json(name="overview")
 	val overview: String? = null,
 
-	@Json(name="images")
-	val images: Images? = null,
+		@Json(name="images")
+	val images: ImagesNetwork,
 
-	@Json(name="original_title")
+		@Json(name="original_title")
 	val originalTitle: String? = null,
 
-	@Json(name="runtime")
+		@Json(name="runtime")
 	val runtime: Int? = null,
 
-	@Json(name="poster_path")
+		@Json(name="poster_path")
 	val posterPath: String? = null,
 
-	@Json(name="spoken_languages")
-	val spokenLanguages: List<SpokenLanguagesItem?>? = null,
+		@Json(name="spoken_languages")
+	val spokenLanguages: List<SpokenLanguagesItemNetwork>? = null,
 
-	@Json(name="production_companies")
-	val productionCompanies: List<ProductionCompaniesItem?>? = null,
+		@Json(name="production_companies")
+	val productionCompanies: List<ProductionCompaniesItemNetwork>? = null,
 
-	@Json(name="release_date")
+		@Json(name="release_date")
 	val releaseDate: String? = null,
 
-	@Json(name="vote_average")
+		@Json(name="vote_average")
 	val voteAverage: Double? = null,
 
-	@Json(name="belongs_to_collection")
-	val belongsToCollection: Any? = null,
+		@Json(name="belongs_to_collection")
+	val belongsToCollection: String? = null,
 
-	@Json(name="tagline")
+		@Json(name="tagline")
 	val tagline: String? = null,
 
-	@Json(name="adult")
+		@Json(name="adult")
 	val adult: Boolean? = null,
 
-	@Json(name="homepage")
+		@Json(name="homepage")
 	val homepage: String? = null,
 
-	@Json(name="status")
+		@Json(name="status")
 	val status: String? = null
 )
 
-data class PostersItem(
+data class PostersItemNetwork(
 
 	@Json(name="aspect_ratio")
 	val aspectRatio: Double? = null,
@@ -107,7 +107,7 @@ data class PostersItem(
 	val height: Int? = null
 )
 
-data class GenresItem(
+data class GenresItemNetwork(
 
 	@Json(name="name")
 	val name: String? = null,
@@ -116,7 +116,7 @@ data class GenresItem(
 	val id: Int? = null
 )
 
-data class ProductionCompaniesItem(
+data class ProductionCompaniesItemNetwork(
 
 	@Json(name="logo_path")
 	val logoPath: String? = null,
@@ -131,7 +131,7 @@ data class ProductionCompaniesItem(
 	val originCountry: String? = null
 )
 
-data class ProductionCountriesItem(
+data class ProductionCountriesItemNetwork(
 
 	@Json(name="iso_3166_1")
 	val iso31661: String? = null,
@@ -140,7 +140,7 @@ data class ProductionCountriesItem(
 	val name: String? = null
 )
 
-data class BackdropsItem(
+data class BackdropsItemNetwork(
 
 	@Json(name="aspect_ratio")
 	val aspectRatio: Double? = null,

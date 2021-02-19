@@ -1,12 +1,8 @@
-package com.damar.jetpacksubmission.models
+package com.damar.jetpacksubmission.network.entity
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
-data class TvTrendingMoshi(
+data class TvsTrendingNetworkEntity(
 
 	@Json(name="page")
 	val page: Int? = null,
@@ -15,13 +11,12 @@ data class TvTrendingMoshi(
 	val totalPages: Int? = null,
 
 	@Json(name="results")
-	val results: List<TvTrending>? = null,
+	val results: List<TvTrendingNetworkEntity>? = null,
 
 	@Json(name="total_results")
 	val totalResults: Int? = null
 )
-@Entity(tableName = "TvTrending", indices = [Index(value = ["name"], unique = true)])
-data class TvTrending(
+data class TvTrendingNetworkEntity(
 
 	@Json(name="first_air_date")
 	var firstAirDate: String = "",
@@ -33,15 +28,13 @@ data class TvTrending(
 	var originalLanguage: String? = null,
 
 	@Json(name="genre_ids")
-	@Ignore
 	var genreIds: List<Int?>? = null,
 
 	@Json(name="poster_path")
 	var posterPath: String? = null,
 
 	@Json(name="origin_country")
-	@Ignore
-	var originCountry: List<String?>? = null,
+	var originCountry: List<String>? = null,
 
 	@Json(name="backdrop_path")
 	var backdropPath: String? = null,
@@ -58,7 +51,6 @@ data class TvTrending(
 	@Json(name="popularity")
 	var popularity: Double? = null,
 
-	@PrimaryKey
 	@Json(name="name")
 	var name: String = "",
 

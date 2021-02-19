@@ -4,16 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.damar.jetpacksubmission.models.MvPopular
-import com.damar.jetpacksubmission.models.MvTrending
-import com.damar.jetpacksubmission.models.TvPopular
-import com.damar.jetpacksubmission.models.TvTrending
-import com.damar.jetpacksubmission.repository.LocalRepo
+import com.damar.jetpacksubmission.local.entity.*
 
-@Database(entities = [TvTrending::class,TvPopular::class,MvTrending::class,MvPopular::class], version = 4)
+@Database(entities = [MoviesCacheEntity::class, TvsCacheEntity::class], version = 5)
 abstract class LocalDatabase: RoomDatabase() {
-    abstract val localRepo: LocalRepo
+    abstract fun getDAO(): LocalDao
     companion object{
+        const val DATABASE_NAME = "localDB"
         @Volatile
         private var INSTANCE: LocalDatabase? = null
         fun getInstance(context: Context): LocalDatabase{

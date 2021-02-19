@@ -1,27 +1,22 @@
-package com.damar.jetpacksubmission.models
+package com.damar.jetpacksubmission.network.entity
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
-data class MoviesTrendingMoshi(
+data class MoviesTrendingNetworkEntity(
 
-	@Json(name="page")
+		@Json(name="page")
 	val page: Int? = null,
 
-	@Json(name="total_pages")
+		@Json(name="total_pages")
 	val totalPages: Int? = null,
 
-	@Json(name="results")
-	val results: List<MvTrending>? = null,
+		@Json(name="results")
+	val results: List<MvTrendingNetworkEntity>? = null,
 
-	@Json(name="total_results")
+		@Json(name="total_results")
 	val totalResults: Int? = null
 )
-@Entity(tableName = "MvTrending", indices = [Index(value = ["title"], unique = true)])
-data class MvTrending(
+data class MvTrendingNetworkEntity(
 
 	@Json(name="overview")
 	var overview: String? = null,
@@ -35,12 +30,10 @@ data class MvTrending(
 	@Json(name="video")
 	var video: Boolean? = null,
 
-	@PrimaryKey
 	@Json(name="title")
-	var title: String = "",
+	var title: String? = null,
 
 	@Json(name="genre_ids")
-	@Ignore
 	var genreIds: List<Int?>? = null,
 
 	@Json(name="poster_path")
