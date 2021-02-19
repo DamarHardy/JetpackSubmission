@@ -18,7 +18,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.damar.jetpacksubmission.ui.HiltTestRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -48,6 +49,9 @@ android {
     }
     buildFeatures{
         viewBinding true
+    }
+    configurations.all{
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.0'
     }
 }
 

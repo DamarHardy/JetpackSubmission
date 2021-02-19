@@ -12,16 +12,28 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.ui.MainActivity
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4ClassRunner::class)
 class HomeFragmentTest {
-    @get:Rule
+
+    @get: Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
+    @Before
+    fun setUp(){
+        hiltRule.inject()
+    }
     @Test
     fun is_fragmentPagerVisible() {
         onView(withId(R.id.pager)).check(matches(isDisplayed()))

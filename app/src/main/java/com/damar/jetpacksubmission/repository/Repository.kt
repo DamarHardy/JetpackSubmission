@@ -15,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.http.GET
 
 @ExperimentalCoroutinesApi
 class Repository constructor(
@@ -24,93 +25,130 @@ class Repository constructor(
         private val movieMapper: NetworkMapperMvDetail,
         private val tvMapper: NetworkMapperTvDetail
 ){
-    init {
-        println("Repository is Being Called")
-    }
     //--Get FLOW API--
-    suspend fun getTrendingTv(): Flow<DataState<List<Tv>>> = flow {
-        println("Get Trending TV called")
+    suspend fun getTrendingTv(tx : TxType): Flow<DataState<List<Tv>>> = flow {
         emit(DataState.Loading)
         try{
-            when(val networkMovies = remoteRepo.getTvTrending()){
-                is NetworkResponse.APIError ->{emit(DataState.Error(networkMovies.body.message))}
-                is NetworkResponse.NetworkError -> {emit(DataState.Error("Network Error"))}
-                is NetworkResponse.UnknownError -> {emit(DataState.Error("Unknown Error"))}
-                is NetworkResponse.Success -> {
-                    if(networkMovies.body.results != null){
-                        val networkResult = NetworkMapperTvTrending.mapFromEntityList(networkMovies.body.results)
-                        val mappedResult = CacheMapperTv.mapToEntityList(networkResult)
-                        localRepo.insertTv(mappedResult)
-                        val cachedResults = localRepo.getTvTrending()
-                        emit(DataState.Success(CacheMapperTv.mapFromEntityList(cachedResults)))
+            when(tx){
+                is TxType.UPDATE -> {
+                    when(val networkMovies = remoteRepo.getTvTrending()) {
+                        is NetworkResponse.APIError -> {
+                            emit(DataState.Error(networkMovies.body.message))
+                        }
+                        is NetworkResponse.NetworkError -> {
+                            emit(DataState.Error("Network Error"))
+                        }
+                        is NetworkResponse.UnknownError -> {
+                            emit(DataState.Error("Unknown Error"))
+                        }
+                        is NetworkResponse.Success -> {
+                            if (networkMovies.body.results != null) {
+                                val networkResult =
+                                    NetworkMapperTvTrending.mapFromEntityList(networkMovies.body.results)
+                                val mappedResult = CacheMapperTv.mapToEntityList(networkResult)
+                                localRepo.insertTv(mappedResult)
+                                val cachedResults = localRepo.getTvTrending()
+                                emit(DataState.Success(CacheMapperTv.mapFromEntityList(cachedResults)))
+                            }
+                        }
                     }
+                }
+                is TxType.GET ->{
+                    val cachedResult = localRepo.getTvTrending()
+                    emit(DataState.Success(CacheMapperTv.mapFromEntityList(cachedResult)))
+                }
+            }
+        }catch (e: Exception){
+            emit(DataState.Error(e.message!!))
+        }
+    }.flowOn(dispatcher)
+    suspend fun getPopularTv(tx : TxType): Flow<DataState<List<Tv>>> = flow {
+        emit(DataState.Loading)
+        try{
+            when(tx){
+                is TxType.UPDATE -> {
+                    when(val networkMovies = remoteRepo.getTvPopular()){
+                        is NetworkResponse.APIError ->{emit(DataState.Error(networkMovies.body.message))}
+                        is NetworkResponse.NetworkError -> {emit(DataState.Error("Network Error"))}
+                        is NetworkResponse.UnknownError -> {emit(DataState.Error("Unknown Error"))}
+                        is NetworkResponse.Success -> {
+                            if(networkMovies.body.results != null){
+                                val networkResult = NetworkMapperTvPopular.mapFromEntityList(networkMovies.body.results)
+                                val mappedResult = CacheMapperTv.mapToEntityList(networkResult)
+                                localRepo.insertTv(mappedResult)
+                                val cachedResults = localRepo.getTvPopular()
+                                emit(DataState.Success(CacheMapperTv.mapFromEntityList(cachedResults)))
+                            }
 
+                        }
+                    }
+                }
+                is TxType.GET ->{
+                    val cachedResults = localRepo.getTvPopular()
+                    emit(DataState.Success(CacheMapperTv.mapFromEntityList(cachedResults)))
                 }
             }
-        }catch (e: Exception){
-            emit(DataState.Error(e.message!!))
-        }
-    }.flowOn(dispatcher)
-    suspend fun getPopularTv(): Flow<DataState<List<Tv>>> = flow {
-        emit(DataState.Loading)
-        try{
-            when(val networkMovies = remoteRepo.getTvPopular()){
-                is NetworkResponse.APIError ->{emit(DataState.Error(networkMovies.body.message))}
-                is NetworkResponse.NetworkError -> {emit(DataState.Error("Network Error"))}
-                is NetworkResponse.UnknownError -> {emit(DataState.Error("Unknown Error"))}
-                is NetworkResponse.Success -> {
-                    if(networkMovies.body.results != null){
-                        val networkResult = NetworkMapperTvPopular.mapFromEntityList(networkMovies.body.results)
-                        val mappedResult = CacheMapperTv.mapToEntityList(networkResult)
-                        localRepo.insertTv(mappedResult)
-                        val cachedResults = localRepo.getTvPopular()
-                        emit(DataState.Success(CacheMapperTv.mapFromEntityList(cachedResults)))
-                    }
 
-                }
-            }
         }catch (e: Exception){
             emit(DataState.Error(e.message!!))
         }
     }.flowOn(dispatcher)
-    suspend fun getTrendingMovie(): Flow<DataState<List<Movie>>> = flow {
+    suspend fun getTrendingMovie(tx : TxType): Flow<DataState<List<Movie>>> = flow {
         emit(DataState.Loading)
         try{
-            when(val networkMovies = remoteRepo.getMoviesTrending()){
-                is NetworkResponse.APIError ->{emit(DataState.Error(networkMovies.body.message))}
-                is NetworkResponse.NetworkError -> {emit(DataState.Error("Network Error"))}
-                is NetworkResponse.UnknownError -> {emit(DataState.Error("Unknown Error"))}
-                is NetworkResponse.Success -> {
-                    if(networkMovies.body.results != null){
-                        val networkResult = NetworkMapperMvTrending.mapFromEntityList(networkMovies.body.results)
-                        val mappedResult = CacheMapperMovie.mapToEntityList(networkResult)
-                        localRepo.insertMovie(mappedResult)
-                        val cachedResults = localRepo.getMvTrending()
-                        emit(DataState.Success(CacheMapperMovie.mapFromEntityList(cachedResults)))
+            when(tx){
+                is TxType.UPDATE -> {
+                    when(val networkMovies = remoteRepo.getMoviesTrending()){
+                        is NetworkResponse.APIError ->{emit(DataState.Error(networkMovies.body.message))}
+                        is NetworkResponse.NetworkError -> {emit(DataState.Error("Network Error"))}
+                        is NetworkResponse.UnknownError -> {emit(DataState.Error("Unknown Error"))}
+                        is NetworkResponse.Success -> {
+                            if(networkMovies.body.results != null){
+                                val networkResult = NetworkMapperMvTrending.mapFromEntityList(networkMovies.body.results)
+                                val mappedResult = CacheMapperMovie.mapToEntityList(networkResult)
+                                localRepo.insertMovie(mappedResult)
+                                val cachedResults = localRepo.getMvTrending()
+                                emit(DataState.Success(CacheMapperMovie.mapFromEntityList(cachedResults)))
+                            }
+                        }
                     }
                 }
+                is TxType.GET -> {
+                    val cachedResults = localRepo.getMvTrending()
+                    emit(DataState.Success(CacheMapperMovie.mapFromEntityList(cachedResults)))
+                }
             }
+
         }catch (e: Exception){
             emit(DataState.Error(e.message!!))
         }
     }.flowOn(dispatcher)
-    suspend fun getPopularMovie(): Flow<DataState<List<Movie>>> = flow {
+    suspend fun getPopularMovie(tx : TxType): Flow<DataState<List<Movie>>> = flow {
         emit(DataState.Loading)
         try{
-            when(val networkMovies = remoteRepo.getMoviesPopular()){
-                is NetworkResponse.APIError ->{emit(DataState.Error(networkMovies.body.message))}
-                is NetworkResponse.NetworkError -> {emit(DataState.Error("Network Error"))}
-                is NetworkResponse.UnknownError -> {emit(DataState.Error("Unknown Error"))}
-                is NetworkResponse.Success -> {
-                    if(networkMovies.body.results != null){
-                        val networkResult = NetworkMapperMvPopular.mapFromEntityList(networkMovies.body.results)
-                        val mappedResult = CacheMapperMovie.mapToEntityList(networkResult)
-                        localRepo.insertMovie(mappedResult)
-                        val cachedResults = localRepo.getMvPopular()
-                        emit(DataState.Success(CacheMapperMovie.mapFromEntityList(cachedResults)))
+            when(tx){
+                is TxType.UPDATE -> {
+                    when(val networkMovies = remoteRepo.getMoviesPopular()){
+                        is NetworkResponse.APIError ->{emit(DataState.Error(networkMovies.body.message))}
+                        is NetworkResponse.NetworkError -> {emit(DataState.Error("Network Error"))}
+                        is NetworkResponse.UnknownError -> {emit(DataState.Error("Unknown Error"))}
+                        is NetworkResponse.Success -> {
+                            if(networkMovies.body.results != null){
+                                val networkResult = NetworkMapperMvPopular.mapFromEntityList(networkMovies.body.results)
+                                val mappedResult = CacheMapperMovie.mapToEntityList(networkResult)
+                                localRepo.insertMovie(mappedResult)
+                                val cachedResults = localRepo.getMvPopular()
+                                emit(DataState.Success(CacheMapperMovie.mapFromEntityList(cachedResults)))
+                            }
+                        }
                     }
                 }
+                is TxType.GET -> {
+                    val cachedResults = localRepo.getMvPopular()
+                    emit(DataState.Success(CacheMapperMovie.mapFromEntityList(cachedResults)))
+                }
             }
+
         }catch (e: Exception){
             emit(DataState.Error(e.message!!))
         }
@@ -147,11 +185,9 @@ class Repository constructor(
             emit(DataState.Error("${e.message}"))
         }
     }.flowOn(dispatcher)
+}
 
-    private fun println(s: String){
-        Log.d(TAG, s)
-    }
-    companion object {
-        private const val TAG = "Repository"
-    }
+sealed class TxType{
+    object UPDATE: TxType()
+    object GET : TxType()
 }

@@ -46,7 +46,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun getTVTrendingSuccess() {
+    fun getTVTrendingUpdateSuccess() {
         val successBody: TvsTrendingNetworkEntity = mockk()
         val result: NetworkResponse<TvsTrendingNetworkEntity, Error> = NetworkResponse.Success(successBody)
         coEvery { remoteRepo.getTvTrending() } returns result
@@ -55,7 +55,7 @@ class RepositoryTest {
             if(result is NetworkResponse.Success){
                 every { result.body.results } returns mutableListOf()
             }
-            repository.getTrendingTv().test {
+            repository.getTrendingTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
                 expectComplete()
@@ -67,7 +67,7 @@ class RepositoryTest {
         val result: NetworkResponse<TvsTrendingNetworkEntity, Error> = NetworkResponse.NetworkError(IOException("Network Error"))
         coEvery { remoteRepo.getTvTrending() } returns result
         coroutineTestRule.testDispatcher.runBlockingTest {
-            repository.getTrendingTv().test {
+            repository.getTrendingTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
                 expectComplete()
@@ -75,7 +75,7 @@ class RepositoryTest {
         }
     }
     @Test
-    fun getTVPopularSuccess() {
+    fun getTVPopularUpdateSuccess() {
         val successBody: TvsPopularNetworkEntity = mockk()
         val result: NetworkResponse<TvsPopularNetworkEntity, Error> = NetworkResponse.Success(successBody)
         coEvery { remoteRepo.getTvPopular() } returns result
@@ -84,7 +84,7 @@ class RepositoryTest {
             if(result is NetworkResponse.Success){
                 every { result.body.results } returns mutableListOf()
             }
-            repository.getPopularTv().test {
+            repository.getPopularTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
                 expectComplete()
@@ -96,7 +96,7 @@ class RepositoryTest {
         val result: NetworkResponse<TvsPopularNetworkEntity, Error> = NetworkResponse.NetworkError(IOException("Network Error"))
         coEvery { remoteRepo.getTvPopular() } returns result
         coroutineTestRule.testDispatcher.runBlockingTest {
-            repository.getPopularTv().test {
+            repository.getPopularTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
                 expectComplete()
@@ -133,7 +133,7 @@ class RepositoryTest {
         }
     }
     @Test
-    fun getMovieTrendingSuccess() {
+    fun getMovieTrendingUpdateSuccess() {
         val successBody: MoviesTrendingNetworkEntity = mockk()
         val result: NetworkResponse<MoviesTrendingNetworkEntity, Error> = NetworkResponse.Success(successBody)
         coEvery { remoteRepo.getMoviesTrending() } returns result
@@ -142,7 +142,7 @@ class RepositoryTest {
             if(result is NetworkResponse.Success){
                 every { result.body.results } returns mutableListOf()
             }
-            repository.getTrendingMovie().test {
+            repository.getTrendingMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Movie>()), expectItem())
                 expectComplete()
@@ -154,7 +154,7 @@ class RepositoryTest {
         val result: NetworkResponse<MoviesTrendingNetworkEntity, Error> = NetworkResponse.NetworkError(IOException("Network Error"))
         coEvery { remoteRepo.getMoviesTrending()} returns result
         coroutineTestRule.testDispatcher.runBlockingTest {
-            repository.getTrendingMovie().test {
+            repository.getTrendingMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
                 expectComplete()
@@ -162,7 +162,7 @@ class RepositoryTest {
         }
     }
     @Test
-    fun getMoviePopularSuccess() {
+    fun getMoviePopularUpdateSuccess() {
         val successBody: MoviesPopularNetworkEntity = mockk()
         val result: NetworkResponse<MoviesPopularNetworkEntity, Error> = NetworkResponse.Success(successBody)
         coEvery { remoteRepo.getMoviesPopular() } returns result
@@ -171,7 +171,7 @@ class RepositoryTest {
             if(result is NetworkResponse.Success){
                 every { result.body.results } returns mutableListOf()
             }
-            repository.getPopularMovie().test {
+            repository.getPopularMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Movie>()), expectItem())
                 expectComplete()
@@ -183,7 +183,7 @@ class RepositoryTest {
         val result: NetworkResponse<MoviesPopularNetworkEntity, Error> = NetworkResponse.NetworkError(IOException("Network Error"))
         coEvery { remoteRepo.getMoviesPopular()} returns result
         coroutineTestRule.testDispatcher.runBlockingTest {
-            repository.getPopularMovie().test {
+            repository.getPopularMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
                 expectComplete()

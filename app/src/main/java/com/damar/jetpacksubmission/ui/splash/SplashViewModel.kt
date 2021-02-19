@@ -3,6 +3,7 @@ package com.damar.jetpacksubmission.ui.splash
 import android.util.Log
 import androidx.lifecycle.*
 import com.damar.jetpacksubmission.repository.Repository
+import com.damar.jetpacksubmission.repository.TxType
 import com.damar.jetpacksubmission.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,7 +23,7 @@ class SplashViewModel @Inject constructor(
     suspend fun init(){
         _state.value = DataState.Loading
         withContext(viewModelScope.coroutineContext) {
-            repository.getPopularTv().onEach {
+            repository.getPopularTv(TxType.UPDATE).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Popular TV: ${it.body}")
@@ -35,7 +36,7 @@ class SplashViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-            repository.getTrendingTv().onEach {
+            repository.getTrendingTv(TxType.UPDATE).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Trending TV: ${it.body}")
@@ -48,7 +49,7 @@ class SplashViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-            repository.getPopularMovie().onEach {
+            repository.getPopularMovie(TxType.UPDATE).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Popular Movie: ${it.body}")
@@ -61,7 +62,7 @@ class SplashViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-            repository.getTrendingMovie().onEach {
+            repository.getTrendingMovie(TxType.UPDATE).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Trending: Movie${it.body}")

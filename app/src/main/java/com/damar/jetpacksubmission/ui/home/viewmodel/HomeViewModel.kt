@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.repository.Repository
+import com.damar.jetpacksubmission.repository.TxType
 import com.damar.jetpacksubmission.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,7 +44,7 @@ class HomeViewModel @Inject constructor(
 
     fun loadData(){
         viewModelScope.launch(viewModelScope.coroutineContext) {
-            repository.getPopularTv().onEach {
+            repository.getPopularTv(TxType.GET).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Popular TV: ${it.body}")
@@ -57,7 +58,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-            repository.getTrendingTv().onEach {
+            repository.getTrendingTv(TxType.GET).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Trending TV: ${it.body}")
@@ -71,7 +72,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-            repository.getPopularMovie().onEach {
+            repository.getPopularMovie(TxType.GET).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Popular Movie: ${it.body}")
@@ -85,7 +86,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-            repository.getTrendingMovie().onEach {
+            repository.getTrendingMovie(TxType.GET).onEach {
                 when(it){
                     is DataState.Success -> {
                         println("Trending: Movie${it.body}")
