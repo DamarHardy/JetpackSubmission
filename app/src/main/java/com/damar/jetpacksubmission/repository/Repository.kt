@@ -1,6 +1,5 @@
 package com.damar.jetpacksubmission.repository
 
-import android.util.Log
 import com.damar.jetpacksubmission.local.CacheMapperMovie
 import com.damar.jetpacksubmission.local.CacheMapperTv
 import com.damar.jetpacksubmission.local.LocalDao
@@ -15,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import retrofit2.http.GET
 
 @ExperimentalCoroutinesApi
 class Repository constructor(

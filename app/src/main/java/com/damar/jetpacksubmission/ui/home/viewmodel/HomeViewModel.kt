@@ -17,8 +17,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-        private val repository: Repository,
-        private val savedStateHandle: SavedStateHandle
+        private val repository: Repository
         ): ViewModel() {
     private var _tvTrending = MutableLiveData<DataState<List<Tv>>>()
     private var _mvTrending = MutableLiveData<DataState<List<Movie>>>()

@@ -19,6 +19,9 @@ import com.damar.jetpacksubmission.ui.MainActivity
 import com.damar.jetpacksubmission.ui.home.MvFragmentTest.Companion.selectTabAtPosition
 import com.damar.jetpacksubmission.ui.home.adapter.PopularMovieAdapter
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.Matcher
 import org.junit.After
 import org.junit.Before
@@ -26,12 +29,16 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
+@ExperimentalCoroutinesApi
+@HiltAndroidTest
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MvDetailFragmentTest{
     private var titleMV = ""
 
-    @get:Rule
+    @get: Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before

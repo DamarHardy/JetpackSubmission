@@ -43,31 +43,6 @@ data class SeasonsItem(
 	val posterPath: String
 )
 
-data class NextEpisodeToAir(
-	val productionCode: String,
-	val airDate: String,
-	val overview: String,
-	val episodeNumber: Int,
-	val voteAverage: Double,
-	val name: String,
-	val seasonNumber: Int,
-	val id: Int,
-	val stillPath: Any,
-	val voteCount: Int
-)
-data class LastEpisodeToAir(
-	val productionCode: String,
-	val airDate: String,
-	val overview: String,
-	val episodeNumber: Int,
-	val voteAverage: Double,
-	val name: String,
-	val seasonNumber: Int,
-	val id: Int,
-	val stillPath: String,
-	val voteCount: Int
-)
-
 data class Images(
 	val backdrops: List<BackdropsItem>,
 	val posters: List<PostersItem>

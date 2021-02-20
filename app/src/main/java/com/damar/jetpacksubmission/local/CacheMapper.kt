@@ -4,12 +4,7 @@ import com.damar.jetpacksubmission.local.entity.MoviesCacheEntity
 import com.damar.jetpacksubmission.local.entity.TvsCacheEntity
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
-import com.damar.jetpacksubmission.network.entity.MvPopularNetworkEntity
-import com.damar.jetpacksubmission.network.entity.MvTrendingNetworkEntity
-import com.damar.jetpacksubmission.network.entity.TvPopularNetworkEntity
-import com.damar.jetpacksubmission.network.entity.TvTrendingNetworkEntity
 import com.damar.jetpacksubmission.utils.EntityMapper
-import javax.inject.Inject
 
 object CacheMapperTv: EntityMapper<TvsCacheEntity, Tv> {
     override fun mapFromEntity(entity: TvsCacheEntity): Tv {

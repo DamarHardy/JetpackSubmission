@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.damar.jetpacksubmission.ui
 
 import android.app.Application

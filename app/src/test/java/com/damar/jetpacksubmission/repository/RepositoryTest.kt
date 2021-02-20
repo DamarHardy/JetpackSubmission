@@ -63,6 +63,17 @@ class RepositoryTest {
         }
     }
     @Test
+    fun getTVTrendingGetSuccess() {
+        coEvery { localDao.getTvTrending() } returns mutableListOf()
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            repository.getTrendingTv(TxType.GET).test {
+                assertEquals(DataState.Loading, expectItem())
+                assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                expectComplete()
+            }
+        }
+    }
+    @Test
     fun getTVTrendingError() {
         val result: NetworkResponse<TvsTrendingNetworkEntity, Error> = NetworkResponse.NetworkError(IOException("Network Error"))
         coEvery { remoteRepo.getTvTrending() } returns result
@@ -85,6 +96,17 @@ class RepositoryTest {
                 every { result.body.results } returns mutableListOf()
             }
             repository.getPopularTv(TxType.UPDATE).test {
+                assertEquals(DataState.Loading, expectItem())
+                assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                expectComplete()
+            }
+        }
+    }
+    @Test
+    fun getTVPopularGetSuccess() {
+        coEvery { localDao.getTvPopular() } returns mutableListOf()
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            repository.getPopularTv(TxType.GET).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
                 expectComplete()
@@ -150,6 +172,17 @@ class RepositoryTest {
         }
     }
     @Test
+    fun getMovieTrendingGetSuccess() {
+        coEvery { localDao.getMvTrending() } returns mutableListOf()
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            repository.getTrendingMovie(TxType.GET).test {
+                assertEquals(DataState.Loading, expectItem())
+                assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                expectComplete()
+            }
+        }
+    }
+    @Test
     fun getMovieTrendingError() {
         val result: NetworkResponse<MoviesTrendingNetworkEntity, Error> = NetworkResponse.NetworkError(IOException("Network Error"))
         coEvery { remoteRepo.getMoviesTrending()} returns result
@@ -174,6 +207,17 @@ class RepositoryTest {
             repository.getPopularMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Movie>()), expectItem())
+                expectComplete()
+            }
+        }
+    }
+    @Test
+    fun getMoviePopularGetSuccess() {
+        coEvery { localDao.getMvPopular() } returns mutableListOf()
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            repository.getPopularMovie(TxType.GET).test {
+                assertEquals(DataState.Loading, expectItem())
+                assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
                 expectComplete()
             }
         }

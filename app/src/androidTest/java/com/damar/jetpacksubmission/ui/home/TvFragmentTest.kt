@@ -2,6 +2,7 @@ package com.damar.jetpacksubmission.ui.home
 
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -19,6 +20,9 @@ import com.damar.jetpacksubmission.ui.MainActivity
 import com.damar.jetpacksubmission.ui.home.adapter.PopularMovieAdapter
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matcher
@@ -29,10 +33,16 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@ExperimentalCoroutinesApi
+@HiltAndroidTest
 @RunWith(AndroidJUnit4ClassRunner::class)
 class TvFragmentTest {
     private var titleTV = ""
-    @get:Rule
+    private lateinit var recyclerView: RecyclerView
+    @get: Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
@@ -84,26 +94,33 @@ class TvFragmentTest {
         onView(withId(R.id.tv_layout)).check(matches(isDisplayed()))
 
         onView(withId(R.id.tv_rv)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
-                19,
-                ViewActions.scrollTo()
+        //--Get Recycler View Size
+        activityRule.scenario.onActivity {
+            recyclerView = it.findViewById(R.id.mv_rv) as RecyclerView
+        }
+        val rvSize = recyclerView.adapter?.itemCount ?: 0
+        if(rvSize > 0){
+            onView(withId(R.id.tv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
+                    19,
+                    ViewActions.scrollTo()
             )
-        )
-        onView(withId(R.id.tv_rv)).perform(
-            actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
-                19,
-                getTextRv()
             )
-        )
-        onView(withId(R.id.tv_rv)).perform(
-            actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
-                19,
-                click()
+            onView(withId(R.id.tv_rv)).perform(
+                    actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
+                            19,
+                            getTextRv()
+                    )
             )
-        )
-        onView(withId(R.id.item_title_detail))
-            .check(matches(withText(titleTV)))
-        pressBack()
+            onView(withId(R.id.tv_rv)).perform(
+                    actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
+                            19,
+                            click()
+                    )
+            )
+            onView(withId(R.id.item_title_detail))
+                    .check(matches(withText(titleTV)))
+            pressBack()
+        }
     }
 
     private fun selectTabAtPosition(tabIndex: Int): ViewAction {

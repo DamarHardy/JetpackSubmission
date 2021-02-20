@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 @ExperimentalCoroutinesApi
 class SplashViewModel @Inject constructor(
-        private val repository: Repository,
-        private val savedStateHandle: SavedStateHandle): ViewModel() {
+        private val repository: Repository
+        ): ViewModel() {
     private var _state = MutableLiveData<DataState<Any>>()
     val state: LiveData<DataState<Any>> get() = _state
     suspend fun init(){

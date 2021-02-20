@@ -1,11 +1,11 @@
 package com.damar.jetpacksubmission.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.SavedStateHandle
 import com.damar.jetpacksubmission.CoroutinesTestRule
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.repository.Repository
+import com.damar.jetpacksubmission.repository.TxType
 import com.damar.jetpacksubmission.ui.home.viewmodel.HomeViewModel
 import com.damar.jetpacksubmission.utils.DataState
 import io.mockk.coEvery
@@ -26,7 +26,6 @@ import java.io.IOException
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var handle : SavedStateHandle
     private lateinit var repository: Repository
 
     @get:Rule
@@ -38,7 +37,6 @@ class HomeViewModelTest {
     @Before
     fun setUp() {
         repository = mockk()
-        handle = mockk()
     }
 
     @Test
@@ -54,20 +52,20 @@ class HomeViewModelTest {
             emit(DataState.Loading)
             emit(DataState.Success(listMovie))
         }
-        coEvery { repository.getPopularTv() } returns tvFlow
-        coEvery { repository.getTrendingTv() } returns tvFlow
-        coEvery { repository.getPopularMovie() } returns movieFlow
-        coEvery { repository.getTrendingMovie() } returns movieFlow
+        coEvery { repository.getPopularTv(TxType.GET) } returns tvFlow
+        coEvery { repository.getTrendingTv(TxType.GET) } returns tvFlow
+        coEvery { repository.getPopularMovie(TxType.GET) } returns movieFlow
+        coEvery { repository.getTrendingMovie(TxType.GET) } returns movieFlow
 
-        homeViewModel = HomeViewModel(repository, handle)
+        homeViewModel = HomeViewModel(repository)
         coroutineTestRule.testDispatcher.runBlockingTest {
             homeViewModel.loadData()
 
             // Test : Make sure All Repository Function is called
-            coVerify { repository.getPopularTv() }
-            coVerify { repository.getTrendingTv() }
-            coVerify { repository.getPopularMovie() }
-            coVerify { repository.getTrendingMovie() }
+            coVerify { repository.getPopularTv(TxType.GET) }
+            coVerify { repository.getTrendingTv(TxType.GET) }
+            coVerify { repository.getPopularMovie(TxType.GET) }
+            coVerify { repository.getTrendingMovie(TxType.GET) }
 
             // Confirm the LiveData return desired Value
             homeViewModel.mvPopular.observeForever {
@@ -104,20 +102,20 @@ class HomeViewModelTest {
             emit(DataState.Loading)
             emit(DataState.Error(error.message!!))
         }
-        coEvery { repository.getPopularTv() } returns tvFlow
-        coEvery { repository.getTrendingTv() } returns tvFlow
-        coEvery { repository.getPopularMovie() } returns movieFlow
-        coEvery { repository.getTrendingMovie() } returns movieFlow
+        coEvery { repository.getPopularTv(TxType.GET) } returns tvFlow
+        coEvery { repository.getTrendingTv(TxType.GET) } returns tvFlow
+        coEvery { repository.getPopularMovie(TxType.GET) } returns movieFlow
+        coEvery { repository.getTrendingMovie(TxType.GET) } returns movieFlow
 
-        homeViewModel = HomeViewModel(repository, handle)
+        homeViewModel = HomeViewModel(repository)
         coroutineTestRule.testDispatcher.runBlockingTest {
             homeViewModel.loadData()
 
             // Test : Make sure All Repository Function is called
-            coVerify { repository.getPopularTv() }
-            coVerify { repository.getTrendingTv() }
-            coVerify { repository.getPopularMovie() }
-            coVerify { repository.getTrendingMovie() }
+            coVerify { repository.getPopularTv(TxType.GET) }
+            coVerify { repository.getTrendingTv(TxType.GET) }
+            coVerify { repository.getPopularMovie(TxType.GET) }
+            coVerify { repository.getTrendingMovie(TxType.GET) }
 
             // Confirm the LiveData return desired Value
             homeViewModel.mvPopular.observeForever {

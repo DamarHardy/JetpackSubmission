@@ -1,7 +1,6 @@
 package com.damar.jetpacksubmission.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.SavedStateHandle
 import com.damar.jetpacksubmission.CoroutinesTestRule
 import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.models.DetailTv
@@ -27,7 +26,6 @@ import java.io.IOException
 class DetailViewModelTest{
 
     @RelaxedMockK private lateinit var repository: Repository
-    @RelaxedMockK private lateinit var handle: SavedStateHandle
     private lateinit var detailViewModel: DetailViewModel
 
     @get:Rule
@@ -50,7 +48,7 @@ class DetailViewModelTest{
         }
         coEvery { repository.getDetailMovie(anyInt()) } returns movieFlow
 
-        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
         coroutineTestRule.testDispatcher.runBlockingTest {
             detailViewModel.getMovieDetail(anyInt())
             detailViewModel.detail.observeForever{
@@ -71,7 +69,7 @@ class DetailViewModelTest{
         }
         coEvery { repository.getDetailMovie(anyInt()) } returns movieFlow
 
-        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
         coroutineTestRule.testDispatcher.runBlockingTest {
             detailViewModel.getMovieDetail(anyInt())
             detailViewModel.detail.observeForever{
@@ -90,7 +88,7 @@ class DetailViewModelTest{
         }
         coEvery { repository.getDetailTv(anyInt()) } returns tvFlow
 
-        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
         coroutineTestRule.testDispatcher.runBlockingTest {
             detailViewModel.getTvDetail(anyInt())
             detailViewModel.detail.observeForever{
@@ -111,7 +109,7 @@ class DetailViewModelTest{
         }
         coEvery { repository.getDetailTv(anyInt()) } returns tvFlow
 
-        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher, handle)
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
         coroutineTestRule.testDispatcher.runBlockingTest {
             detailViewModel.getTvDetail(anyInt())
             detailViewModel.detail.observeForever{

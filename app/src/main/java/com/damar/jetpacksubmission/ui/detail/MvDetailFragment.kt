@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentMvDetailBinding
@@ -15,6 +16,8 @@ import com.damar.jetpacksubmission.databinding.PopupLoadingBinding
 import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
 import com.damar.jetpacksubmission.ui.MainActivity
+import com.damar.jetpacksubmission.ui.detail.adapter.BackdropsAdapter
+import com.damar.jetpacksubmission.ui.detail.adapter.ImagesAdapter
 import com.damar.jetpacksubmission.ui.detail.viewmodel.DetailViewModel
 import com.damar.jetpacksubmission.utils.DataState
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
@@ -83,12 +86,12 @@ class MvDetailFragment : Fragment() {
             binding.itemLanguageDetail.text = body.originalLanguage
             binding.itemOriginalTitleDetail.text = body.originalTitle
             Glide.with(requireContext()).load(BASE_IMG_URL + body.posterPath).placeholder(R.drawable.loading_image).into(binding.itemPosterDetail)
-//            val backdropsAdapter = BackdropsAdapter(body.images?.backdrops!!)
-//            val imagesAdapter = ImagesAdapter(body.images.posters!!)
-//
-//            binding.pagerDetailMv.adapter = backdropsAdapter
-//            binding.imagesDetailRv.adapter = imagesAdapter
-//            binding.imagesDetailRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            val backdropsAdapter = BackdropsAdapter(body.images.backdrops)
+            val imagesAdapter = ImagesAdapter(body.images.posters)
+
+            binding.pagerDetailMv.adapter = backdropsAdapter
+            binding.imagesDetailRv.adapter = imagesAdapter
+            binding.imagesDetailRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
 

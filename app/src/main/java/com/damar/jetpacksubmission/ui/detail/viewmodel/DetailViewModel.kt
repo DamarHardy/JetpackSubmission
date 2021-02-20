@@ -6,7 +6,6 @@ import com.damar.jetpacksubmission.utils.DataState
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,9 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
         private val repository: Repository,
-        private val dispatcher: CoroutineDispatcher,
-        private val savedStateHandle: SavedStateHandle
-        ): ViewModel() {
+        private val dispatcher: CoroutineDispatcher
+): ViewModel() {
     private var _detail = MutableLiveData<DataState<Any>>()
     val detail: LiveData<DataState<Any>> get()= _detail
 

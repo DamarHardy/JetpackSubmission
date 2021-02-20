@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.damar.jetpacksubmission.utils
 
 import androidx.fragment.app.Fragment

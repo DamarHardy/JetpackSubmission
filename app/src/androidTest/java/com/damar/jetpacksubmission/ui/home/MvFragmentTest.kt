@@ -2,12 +2,12 @@ package com.damar.jetpacksubmission.ui.home
 
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -15,10 +15,12 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.ui.MainActivity
-import com.damar.jetpacksubmission.ui.home.adapter.PagerAdapter
 import com.damar.jetpacksubmission.ui.home.adapter.PopularMovieAdapter
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matcher
@@ -29,10 +31,17 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@ExperimentalCoroutinesApi
+@HiltAndroidTest
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MvFragmentTest{
     private var titleRV = ""
-    @get:Rule
+    private lateinit var recyclerView : RecyclerView
+
+    @get: Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
@@ -85,11 +94,19 @@ class MvFragmentTest{
         onView(withId(R.id.mv_layout)).check(matches(isDisplayed()))
 
         onView(withId(R.id.mv_rv)).check(matches(isDisplayed()))
-        onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(19,scrollTo()))
-        onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(19,getTextRv()))
-        onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(19,click()))
-        onView(withId(R.id.item_title_detail)).check(matches(withText(titleRV)))
-        pressBack()
+        //--Get Recycler View Size
+        activityRule.scenario.onActivity {
+            recyclerView = it.findViewById(R.id.mv_rv) as RecyclerView
+        }
+        val rvSize = recyclerView.adapter?.itemCount ?: 0
+        if(rvSize > 0 ){
+            onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(rvSize-1,scrollTo()))
+            onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(rvSize-1,getTextRv()))
+            onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(rvSize-1,click()))
+            onView(withId(R.id.item_title_detail)).check(matches(withText(titleRV)))
+            pressBack()
+        }
+
     }
     private fun getText(viewInteraction: ViewInteraction): String{
         var string = ""
