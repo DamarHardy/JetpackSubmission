@@ -152,6 +152,7 @@ class Repository constructor(
         }
     }.flowOn(dispatcher)
     suspend fun getDetailMovie(id: Int): Flow<DataState<DetailMv>> = flow {
+        println("Called Detail Movie with id : $id")
         emit(DataState.Loading)
         try{
             when(val networkResponse = remoteRepo.getMvDetail(id)){
@@ -167,6 +168,7 @@ class Repository constructor(
             emit(DataState.Error("${e.message}"))
         }
     }.flowOn(dispatcher)
+
     suspend fun getDetailTv(id: Int): Flow<DataState<DetailTv>> = flow {
         emit(DataState.Loading)
         try{

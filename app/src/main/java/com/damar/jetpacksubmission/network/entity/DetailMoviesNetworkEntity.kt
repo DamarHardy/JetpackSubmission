@@ -68,7 +68,7 @@ data class DetailMvNetworkEntity(
 	val voteAverage: Double? = null,
 
 		@Json(name="belongs_to_collection")
-	val belongsToCollection: String? = null,
+	val belongsToCollection: CollectionNetwork? = null,
 
 		@Json(name="tagline")
 	val tagline: String? = null,
@@ -81,6 +81,16 @@ data class DetailMvNetworkEntity(
 
 		@Json(name="status")
 	val status: String? = null
+)
+
+data class CollectionNetwork(
+	@Json(name = "id") val id : Int? = null,
+	@Json(name = "name")
+	val name : String? = null,
+	@Json(name = "poster_path")
+	val posterPath: String? = null,
+	@Json(name = "backdrop_path")
+	val backdropPath: String? = null
 )
 
 data class PostersItemNetwork(

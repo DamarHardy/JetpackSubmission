@@ -96,24 +96,24 @@ class TvFragmentTest {
         onView(withId(R.id.tv_rv)).check(matches(isDisplayed()))
         //--Get Recycler View Size
         activityRule.scenario.onActivity {
-            recyclerView = it.findViewById(R.id.mv_rv) as RecyclerView
+            recyclerView = it.findViewById(R.id.tv_rv) as RecyclerView
         }
         val rvSize = recyclerView.adapter?.itemCount ?: 0
         if(rvSize > 0){
             onView(withId(R.id.tv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
-                    19,
+                    rvSize-1,
                     ViewActions.scrollTo()
             )
             )
             onView(withId(R.id.tv_rv)).perform(
                     actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
-                            19,
+                            rvSize-1,
                             getTextRv()
                     )
             )
             onView(withId(R.id.tv_rv)).perform(
                     actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(
-                            19,
+                            rvSize-1,
                             click()
                     )
             )

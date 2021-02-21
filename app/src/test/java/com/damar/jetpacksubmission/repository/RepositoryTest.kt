@@ -13,11 +13,8 @@ import com.damar.jetpacksubmission.network.*
 import com.damar.jetpacksubmission.network.entity.*
 import com.damar.jetpacksubmission.utils.DataState
 import com.nhaarman.mockitokotlin2.any
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
@@ -58,6 +55,8 @@ class RepositoryTest {
             repository.getTrendingTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                coVerify { remoteRepo.getTvTrending() }
+                coVerify { localDao.getTvTrending() }
                 expectComplete()
             }
         }
@@ -69,6 +68,7 @@ class RepositoryTest {
             repository.getTrendingTv(TxType.GET).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                coVerify { localDao.getTvTrending() }
                 expectComplete()
             }
         }
@@ -81,6 +81,7 @@ class RepositoryTest {
             repository.getTrendingTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
+                coVerify { remoteRepo.getTvTrending() }
                 expectComplete()
             }
         }
@@ -98,6 +99,8 @@ class RepositoryTest {
             repository.getPopularTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                coVerify { remoteRepo.getTvPopular() }
+                coVerify { localDao.getTvPopular() }
                 expectComplete()
             }
         }
@@ -109,6 +112,7 @@ class RepositoryTest {
             repository.getPopularTv(TxType.GET).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                coVerify { localDao.getTvPopular() }
                 expectComplete()
             }
         }
@@ -121,6 +125,7 @@ class RepositoryTest {
             repository.getPopularTv(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
+                coVerify { remoteRepo.getTvPopular() }
                 expectComplete()
             }
         }
@@ -138,6 +143,7 @@ class RepositoryTest {
             repository.getDetailTv(any()).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mappedResult), expectItem())
+                coVerify { remoteRepo.getTvDetail(any()) }
                 expectComplete()
             }
         }
@@ -150,6 +156,7 @@ class RepositoryTest {
             repository.getDetailTv(any()).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
+                coVerify { remoteRepo.getTvDetail(any()) }
                 expectComplete()
             }
         }
@@ -167,6 +174,8 @@ class RepositoryTest {
             repository.getTrendingMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Movie>()), expectItem())
+                coVerify { remoteRepo.getMoviesTrending() }
+                coVerify { localDao.getMvTrending()}
                 expectComplete()
             }
         }
@@ -178,6 +187,7 @@ class RepositoryTest {
             repository.getTrendingMovie(TxType.GET).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                coVerify { localDao.getMvTrending() }
                 expectComplete()
             }
         }
@@ -190,6 +200,7 @@ class RepositoryTest {
             repository.getTrendingMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
+                coVerify { remoteRepo.getMoviesTrending()}
                 expectComplete()
             }
         }
@@ -207,6 +218,8 @@ class RepositoryTest {
             repository.getPopularMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Movie>()), expectItem())
+                coVerify { remoteRepo.getMoviesPopular() }
+                coVerify { localDao.getMvPopular()}
                 expectComplete()
             }
         }
@@ -218,6 +231,7 @@ class RepositoryTest {
             repository.getPopularMovie(TxType.GET).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mutableListOf<Tv>()), expectItem())
+                coVerify { localDao.getMvPopular() }
                 expectComplete()
             }
         }
@@ -230,6 +244,7 @@ class RepositoryTest {
             repository.getPopularMovie(TxType.UPDATE).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
+                coVerify { remoteRepo.getMoviesPopular()}
                 expectComplete()
             }
         }
@@ -247,6 +262,7 @@ class RepositoryTest {
             repository.getDetailMovie(any()).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Success(mappedResult), expectItem())
+                coVerify { remoteRepo.getMvDetail(any()) }
                 expectComplete()
             }
         }
@@ -259,6 +275,7 @@ class RepositoryTest {
             repository.getDetailMovie(any()).test {
                 assertEquals(DataState.Loading, expectItem())
                 assertEquals(DataState.Error("Network Error"), expectItem())
+                coVerify { remoteRepo.getMvDetail(any()) }
                 expectComplete()
             }
         }

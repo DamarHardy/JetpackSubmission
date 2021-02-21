@@ -78,10 +78,11 @@ class HomeViewModel @Inject constructor(
                         _mvPopular.value = it
                     }
                     is DataState.Error -> {
+                        println("Popular Movie: ${it.e}")
 
                     }
                     is DataState.Loading -> {
-
+                        println("Popular Movie: Loading")
                     }
                 }
             }.launchIn(viewModelScope)

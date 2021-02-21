@@ -75,8 +75,9 @@ class SplashViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-        }
+        }.join()
         delay(2000)
+        println("To the End is Called")
         _state.value = DataState.Success("Success")
     }
 

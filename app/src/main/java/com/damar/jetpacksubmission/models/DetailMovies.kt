@@ -22,12 +22,20 @@ data class DetailMv(
 	val productionCompanies: List<ProductionCompaniesItem>,
 	val releaseDate: String,
 	val voteAverage: Double,
-	val belongsToCollection: String,
+	val belongsToCollection: BelongToCollection,
 	val tagLine: String,
 	val adult: Boolean,
 	val homepage: String,
 	val status: String
 )
+
+data class BelongToCollection(
+	val id : Int? = null,
+	val name : String? = null,
+	val posterPath: String? = null,
+	val backdropPath: String? = null
+)
+
 data class PostersItem(
 	val aspectRatio: Double,
 	val filePath: String,

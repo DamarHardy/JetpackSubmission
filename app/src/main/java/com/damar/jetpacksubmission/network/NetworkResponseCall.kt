@@ -21,7 +21,7 @@ internal class NetworkResponseCall<S: Any, E: Any>(
                 val body = response.body()
                 val code = response.code()
                 val error = response.errorBody()
-
+                println("From Callback : $body")
                 if (response.isSuccessful) {
                     if (body != null) {
                         callback.onResponse(
@@ -62,6 +62,7 @@ internal class NetworkResponseCall<S: Any, E: Any>(
             }
 
             override fun onFailure(call: Call<S>, t: Throwable) {
+                println("OnFailure is Called with error : ${t.message}")
                 val networkResponse = when (t) {
                     is IOException -> NetworkResponse.NetworkError(t)
                     else -> NetworkResponse.UnknownError(t)

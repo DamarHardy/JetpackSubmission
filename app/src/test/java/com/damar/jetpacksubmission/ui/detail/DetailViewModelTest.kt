@@ -9,6 +9,7 @@ import com.damar.jetpacksubmission.ui.detail.viewmodel.DetailViewModel
 import com.damar.jetpacksubmission.utils.DataState
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -58,6 +59,7 @@ class DetailViewModelTest{
                     }
                 }
             }
+            coVerify { repository.getDetailMovie(anyInt()) }
         }
     }
     @Test
@@ -77,6 +79,7 @@ class DetailViewModelTest{
                     assertEquals(it.e, error.message)
                 }
             }
+            coVerify { repository.getDetailMovie(anyInt()) }
         }
     }
     @Test
@@ -98,6 +101,7 @@ class DetailViewModelTest{
                     }
                 }
             }
+            coVerify { repository.getDetailTv(anyInt()) }
         }
     }
     @Test
@@ -117,6 +121,7 @@ class DetailViewModelTest{
                     assertEquals(it.e, error.message)
                 }
             }
+            coVerify { repository.getDetailTv(anyInt()) }
         }
     }
 }

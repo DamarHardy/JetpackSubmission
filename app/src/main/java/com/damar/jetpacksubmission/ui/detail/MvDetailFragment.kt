@@ -15,6 +15,7 @@ import com.damar.jetpacksubmission.databinding.FragmentMvDetailBinding
 import com.damar.jetpacksubmission.databinding.PopupLoadingBinding
 import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
+import com.damar.jetpacksubmission.network.NO_INFO
 import com.damar.jetpacksubmission.ui.MainActivity
 import com.damar.jetpacksubmission.ui.detail.adapter.BackdropsAdapter
 import com.damar.jetpacksubmission.ui.detail.adapter.ImagesAdapter
@@ -42,7 +43,9 @@ class MvDetailFragment : Fragment() {
         loadingBuilder = AlertDialog.Builder(requireContext()).setView(PopupLoadingBinding.inflate(layoutInflater).root).setCancelable(false).create()
         detailVm.detail.observe(viewLifecycleOwner, {
             when (it) {
-                is DataState.Error -> println(it.e)
+                is DataState.Error -> {
+                    println(it.e)
+                }
                 is DataState.Loading -> loadingBuilder.show()
                 is DataState.Success -> {
                     updateUI(it.body)
@@ -57,7 +60,7 @@ class MvDetailFragment : Fragment() {
 
     private fun updateUI(body: Any) {
         if(body is DetailMv){
-            binding.itemTitleDetail.text = body.originalTitle
+            binding.itemTitleDetail.text = body.title
             val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
             body.releaseDate.let {
                 val date = dateFormatter.parse(it)
@@ -80,9 +83,12 @@ class MvDetailFragment : Fragment() {
             binding.itemDescFullDetail.text = body.overview
             binding.itemVoteAverage.text = body.voteAverage.toString()
             binding.itemTotalVote.text = getString(R.string.braces, body.voteCount.toString())
-            body.productionCountries.let {
-                binding.itemCountryOriginDetail.text = it[0].iso31661
+            if(body.productionCountries.isNotEmpty()){
+                binding.itemCountryOriginDetail.text = body.productionCountries[0].iso31661
+            }else{
+                binding.itemCountryOriginDetail.text = NO_INFO
             }
+
             binding.itemLanguageDetail.text = body.originalLanguage
             binding.itemOriginalTitleDetail.text = body.originalTitle
             Glide.with(requireContext()).load(BASE_IMG_URL + body.posterPath).placeholder(R.drawable.loading_image).into(binding.itemPosterDetail)

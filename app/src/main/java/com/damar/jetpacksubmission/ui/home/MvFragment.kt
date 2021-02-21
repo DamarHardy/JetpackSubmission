@@ -26,6 +26,7 @@ class MvFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
+        homeVM.loadData()
         binding = FragmentMvBinding.inflate(layoutInflater, container, false)
         homeVM.mvTrending.observe(viewLifecycleOwner, {
             if(it!=null && it is DataState.Success){
@@ -33,6 +34,8 @@ class MvFragment : Fragment() {
                 binding.mvPager.adapter = pagerAdapter
                 binding.mvPager.setPageTransformer(PageTransformer())
                 pagerAdapter.notifyDataSetChanged()
+            }else{
+                println("Called with Data : $it")
             }
         })
         homeVM.mvPopular.observe(viewLifecycleOwner,{
@@ -41,6 +44,8 @@ class MvFragment : Fragment() {
                 binding.mvRv.adapter = rvAdapter
                 binding.mvRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 binding.mvRv.isNestedScrollingEnabled = false
+            }else{
+                println("Called with Data : $it")
             }
         })
         return binding.root

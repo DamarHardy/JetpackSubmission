@@ -356,6 +356,12 @@ object NetworkMapperMvDetail: EntityMapper<DetailMvNetworkEntity, DetailMv>{
                     originCountry=it.originCountry ?: NO_INFO
             )
         } ?: mutableListOf()
+        val belongToCollection = BelongToCollection(
+                id = entity.belongsToCollection?.id ?: 0,
+                name = entity.belongsToCollection?.name ?: NO_INFO,
+                posterPath = entity.belongsToCollection?.posterPath ?: "",
+                backdropPath = entity.belongsToCollection?.backdropPath ?: ""
+        )
         return DetailMv(
                 originalLanguage = entity.originalLanguage ?: NO_INFO,
                 imdbId = entity.imdbId ?: NO_INFO,
@@ -377,7 +383,7 @@ object NetworkMapperMvDetail: EntityMapper<DetailMvNetworkEntity, DetailMv>{
                 productionCompanies = productionCompanies,
                 releaseDate = entity.releaseDate ?: NO_INFO,
                 voteAverage = entity.voteAverage ?: 0.0,
-                belongsToCollection = entity.belongsToCollection ?: NO_INFO,
+                belongsToCollection = belongToCollection,
                 tagLine = entity.tagline ?: NO_INFO,
                 adult = entity.adult ?: false,
                 homepage = entity.homepage ?: NO_INFO,
