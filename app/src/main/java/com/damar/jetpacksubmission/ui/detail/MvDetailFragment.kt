@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,8 +15,10 @@ import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentMvDetailBinding
 import com.damar.jetpacksubmission.databinding.PopupLoadingBinding
 import com.damar.jetpacksubmission.models.DetailMv
+import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
 import com.damar.jetpacksubmission.network.NO_INFO
+import com.damar.jetpacksubmission.repository.Table
 import com.damar.jetpacksubmission.ui.MainActivity
 import com.damar.jetpacksubmission.ui.detail.adapter.BackdropsAdapter
 import com.damar.jetpacksubmission.ui.detail.adapter.ImagesAdapter
@@ -25,6 +28,7 @@ import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,6 +59,32 @@ class MvDetailFragment : Fragment() {
             }
         })
         binding = FragmentMvDetailBinding.inflate(layoutInflater, container, false)
+        binding.favButton.setOnClickListener {
+            try{
+                if(binding.favButton.isChecked){
+                    //Write to database
+                    when(val data = detailVm.detail.value){
+                        is DataState.Error -> println("Error")
+                        is DataState.Loading -> println("Loading")
+                        is DataState.Success -> {
+                            if(data.body is DetailMv){
+                                detailVm.insertFavourite(data.body, Table.FavMovie)
+                            }else if (data.body is DetailTv){
+                                detailVm.insertFavourite(data.body, Table.FavTv)
+                            }
+                        }
+                        null -> println("Null")
+                    }
+
+                }else{
+                    //Delete from database
+                    println("Proceed To Delete")
+                }
+            }catch (e: Exception){
+                Log.d(TAG, "onCreateView: ${e.message}")
+            }
+
+        }
         return binding.root
     }
 

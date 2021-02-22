@@ -1,14 +1,20 @@
 package com.damar.jetpacksubmission.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.PagingSource
+import com.damar.jetpacksubmission.local.CacheMapperDetailMovieFav
 import com.damar.jetpacksubmission.local.CacheMapperMovie
 import com.damar.jetpacksubmission.local.CacheMapperTv
 import com.damar.jetpacksubmission.local.LocalDao
+import com.damar.jetpacksubmission.local.entity.FavMoviesEntity
 import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.network.*
 import com.damar.jetpacksubmission.utils.DataState
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -168,7 +174,6 @@ class Repository constructor(
             emit(DataState.Error("${e.message}"))
         }
     }.flowOn(dispatcher)
-
     suspend fun getDetailTv(id: Int): Flow<DataState<DetailTv>> = flow {
         emit(DataState.Loading)
         try{
@@ -185,9 +190,40 @@ class Repository constructor(
             emit(DataState.Error("${e.message}"))
         }
     }.flowOn(dispatcher)
+
+    //--Favourite API
+    fun getFavouriteMovie(): PagingSource<Int, FavMoviesEntity> = localRepo.favMoviesPagingSource()
+    fun isFavouriteMovie(id: String) = localRepo.getFavouriteMovies(id)
+    suspend fun deleteFavourite(id: String, table: Table){
+        when(table){
+            Table.FavMovie ->{
+                localRepo.deleteFavMovies(id)
+            }
+            Table.FavTv -> {
+                //Do Something Later
+            }
+        }
+    }
+    suspend fun insertFavourite(item: Any, table: Table){
+        when(table){
+            Table.FavMovie ->{
+                if(item is DetailMv){
+                    localRepo.insertFavMovie(CacheMapperDetailMovieFav.mapToEntity(item))
+                }
+            }
+            Table.FavTv -> {
+                //Do Something Later
+            }
+        }
+    }
+
 }
 
 sealed class TxType{
     object UPDATE: TxType()
     object GET : TxType()
+}
+sealed class Table{
+    object FavMovie: Table()
+    object FavTv: Table()
 }

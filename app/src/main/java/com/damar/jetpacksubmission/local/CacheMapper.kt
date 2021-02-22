@@ -1,9 +1,13 @@
 package com.damar.jetpacksubmission.local
 
+import androidx.room.PrimaryKey
+import com.damar.jetpacksubmission.local.entity.FavMoviesEntity
 import com.damar.jetpacksubmission.local.entity.MoviesCacheEntity
 import com.damar.jetpacksubmission.local.entity.TvsCacheEntity
+import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
+import com.damar.jetpacksubmission.network.NO_INFO
 import com.damar.jetpacksubmission.utils.EntityMapper
 
 object CacheMapperTv: EntityMapper<TvsCacheEntity, Tv> {
@@ -94,4 +98,64 @@ object CacheMapperMovie: EntityMapper<MoviesCacheEntity, Movie> {
     fun mapToEntityList(entities: List<Movie>): List<MoviesCacheEntity>{
         return entities.map{ mapToEntity(it)}
     }
+}
+object CacheMapperMovieFav: EntityMapper<FavMoviesEntity, Movie> {
+    override fun mapFromEntity(entity: FavMoviesEntity): Movie {
+        return Movie(
+            overview = entity.overview,
+            originalLanguage = entity.originalLanguage ,
+            originalTitle = entity.originalTitle ,
+            video = entity.video ,
+            title = entity.title ,
+            posterPath = entity.posterPath,
+            backdropPath = entity.backdropPath,
+            releaseDate = entity.releaseDate,
+            voteAverage = entity.voteAverage,
+            popularity = entity.popularity,
+            id = entity.id ,
+            adult = entity.adult ,
+            voteCount = entity.voteCount,
+            category = entity.category
+        )
+    }
+
+    override fun mapToEntity(domainModel: Movie): FavMoviesEntity {
+        return FavMoviesEntity(
+            overview = domainModel.overview,
+            originalLanguage = domainModel.originalLanguage ,
+            originalTitle = domainModel.originalTitle ,
+            video = domainModel.video ,
+            title = domainModel.title ,
+            posterPath = domainModel.posterPath,
+            backdropPath = domainModel.backdropPath,
+            releaseDate = domainModel.releaseDate,
+            voteAverage = domainModel.voteAverage,
+            popularity = domainModel.popularity,
+            id = domainModel.id ,
+            adult = domainModel.adult ,
+            voteCount = domainModel.voteCount,
+            category = domainModel.category
+        )
+    }
+}
+object CacheMapperDetailMovieFav{
+    fun mapToEntity(domainModel: DetailMv): FavMoviesEntity {
+        return FavMoviesEntity(
+        title =  domainModel.title,
+        id =  domainModel.id,
+        video =  domainModel.video,
+        adult =  domainModel.adult,
+        voteCount =  domainModel.voteCount,
+        category =  NO_INFO,
+        overview =  domainModel.overview,
+        popularity =  domainModel.popularity,
+        posterPath =  domainModel.posterPath,
+        releaseDate =  domainModel.releaseDate,
+        voteAverage =  domainModel.voteAverage,
+        backdropPath =  domainModel.backdropPath,
+        originalTitle =  domainModel.originalTitle,
+        originalLanguage =  domainModel.originalLanguage
+        )
+    }
+
 }

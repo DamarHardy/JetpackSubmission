@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="@color/colorPrimary" />
+            <size android:width="56dp" android:height="56dp"/>
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_round_favorite_24"
+        android:top="16dp"
+        android:bottom="16dp"
+        android:start="16dp"
+        android:end="16dp"
+        tools:targetApi="m" />
+</layer-list>

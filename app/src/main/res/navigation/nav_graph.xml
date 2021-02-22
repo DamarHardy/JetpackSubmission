@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_tvDetailFragment"
             app:destination="@id/tvDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/mvDetailFragment"
@@ -35,4 +38,9 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.damar.jetpacksubmission.ui.favourite.FavouriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_favourite" />
 </navigation>

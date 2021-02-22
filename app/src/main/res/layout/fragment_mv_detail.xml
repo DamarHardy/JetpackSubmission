@@ -1,381 +1,401 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.detail.MvDetailFragment"
-    android:id="@+id/movie_detail_layout">
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="@color/colorPrimaryDark">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="Movies Surfer"/>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <ScrollView
-        android:id="@+id/movie_detail_scroll"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
+        android:orientation="vertical"
+        tools:context=".ui.detail.MvDetailFragment"
+        android:id="@+id/movie_detail_layout">
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:background="@color/colorPrimaryDark">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="Movies Surfer"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:id="@+id/movie_detail_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/main_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:elevation="2dp"
                 android:orientation="vertical">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/pager_detail_mv"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
-
-                <TextView
-                    android:id="@+id/item_title_detail"
+                <LinearLayout
+                    android:id="@+id/main_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="24sp"
-                    tools:text="Godzilla vs Kong" />
+                    android:background="@android:color/white"
+                    android:elevation="2dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/item_release_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="@color/colorPrimaryDark"
-                    tools:text="In Theathers 2021" />
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/pager_detail_mv"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/divider" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp">
-
-                    <ImageView
-                        android:id="@+id/item_poster_detail"
-                        android:layout_width="120dp"
-                        android:layout_height="180dp"
-                        android:layout_marginBottom="8dp"
-                        android:contentDescription="@string/image_backdrop"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@tools:sample/avatars" />
-
-                    <HorizontalScrollView
-                        android:id="@+id/horizontal_genre_sv"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/item_title_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:scrollbars="none"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/item_poster_detail"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="24sp"
+                        tools:text="Godzilla vs Kong" />
 
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/genre_chip_group"
+                    <TextView
+                        android:id="@+id/item_release_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:text="In Theathers 2021" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp">
+
+                        <ImageView
+                            android:id="@+id/item_poster_detail"
+                            android:layout_width="120dp"
+                            android:layout_height="180dp"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="@string/image_backdrop"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:src="@tools:sample/avatars" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/horizontal_genre_sv"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:scrollbars="none"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/item_poster_detail"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/genre_chip_group"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:chipSpacingHorizontal="8dp"
+                                app:singleLine="true" />
+                        </HorizontalScrollView>
+
+                        <TextView
+                            android:id="@+id/item_desc_detail"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            app:layout_constraintBottom_toTopOf="@+id/item_vote_average"
+                            app:layout_constraintEnd_toEndOf="@+id/horizontal_genre_sv"
+                            app:layout_constraintStart_toStartOf="@+id/horizontal_genre_sv"
+                            app:layout_constraintTop_toBottomOf="@+id/horizontal_genre_sv"
+                            tools:text="This is dummy Content Description" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:chipSpacingHorizontal="8dp"
-                            app:singleLine="true" />
-                    </HorizontalScrollView>
+                            android:layout_marginBottom="4dp"
+                            android:contentDescription="@string/image_backdrop"
+                            android:src="@drawable/ic_baseline_star_24"
+                            app:layout_constraintBottom_toBottomOf="@+id/item_poster_detail"
+                            app:layout_constraintStart_toStartOf="@+id/item_desc_detail" />
+
+                        <TextView
+                            android:id="@+id/item_total_vote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                            app:layout_constraintStart_toEndOf="@+id/dummy"
+                            app:layout_constraintTop_toTopOf="@+id/imageView3"
+                            tools:text=" (49201)" />
+
+                        <TextView
+                            android:id="@+id/item_vote_average"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                            app:layout_constraintStart_toEndOf="@+id/imageView3"
+                            app:layout_constraintTop_toTopOf="@+id/imageView3"
+                            tools:text="7.8" />
+
+                        <TextView
+                            android:id="@+id/dummy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total_rate"
+                            app:layout_constraintBottom_toBottomOf="@+id/item_vote_average"
+                            app:layout_constraintStart_toEndOf="@+id/item_vote_average"
+                            app:layout_constraintTop_toTopOf="@+id/item_vote_average" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:id="@+id/story_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:outlineProvider="background">
 
                     <TextView
-                        android:id="@+id/item_desc_detail"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:ellipsize="end"
-                        android:maxLines="3"
-                        app:layout_constraintBottom_toTopOf="@+id/item_vote_average"
-                        app:layout_constraintEnd_toEndOf="@+id/horizontal_genre_sv"
-                        app:layout_constraintStart_toStartOf="@+id/horizontal_genre_sv"
-                        app:layout_constraintTop_toBottomOf="@+id/horizontal_genre_sv"
-                        tools:text="This is dummy Content Description" />
-
-                    <ImageView
-                        android:id="@+id/imageView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:contentDescription="@string/image_backdrop"
-                        android:src="@drawable/ic_baseline_star_24"
-                        app:layout_constraintBottom_toBottomOf="@+id/item_poster_detail"
-                        app:layout_constraintStart_toStartOf="@+id/item_desc_detail" />
-
-                    <TextView
-                        android:id="@+id/item_total_vote"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                        app:layout_constraintStart_toEndOf="@+id/dummy"
-                        app:layout_constraintTop_toTopOf="@+id/imageView3"
-                        tools:text=" (49201)" />
-
-                    <TextView
-                        android:id="@+id/item_vote_average"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="18dp"
                         android:fontFamily="sans-serif-medium"
+                        android:text="@string/storyline"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                        app:layout_constraintStart_toEndOf="@+id/imageView3"
-                        app:layout_constraintTop_toTopOf="@+id/imageView3"
-                        tools:text="7.8" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/dummy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_rate"
-                        app:layout_constraintBottom_toBottomOf="@+id/item_vote_average"
-                        app:layout_constraintStart_toEndOf="@+id/item_vote_average"
-                        app:layout_constraintTop_toTopOf="@+id/item_vote_average" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/plot_summary"
+                        android:textColor="@color/colorPrimaryDark" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="@color/divider" />
+                    <TextView
+                        android:id="@+id/item_desc_full_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="12dp"
+                        tools:text="This is dummy content" />
 
-            <LinearLayout
-                android:id="@+id/story_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:outlineProvider="background">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/genres"
+                        android:textColor="@color/colorPrimaryDark" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="18dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/storyline"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="12dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/plot_summary"
-                    android:textColor="@color/colorPrimaryDark" />
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/other_chip_genre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:scrollbars="none"
+                            app:chipSpacingHorizontal="8dp"
+                            app:singleLine="true">
 
-                <TextView
-                    android:id="@+id/item_desc_full_detail"
+                        </com.google.android.material.chip.ChipGroup>
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:id="@+id/poster_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="12dp"
-                    tools:text="This is dummy content" />
+                    android:background="@android:color/white"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:outlineProvider="background">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="18dp"
-                    android:text="@string/genres"
-                    android:textColor="@color/colorPrimaryDark" />
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="12dp">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/other_chip_genre"
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:scrollbars="none"
-                        app:chipSpacingHorizontal="8dp"
-                        app:singleLine="true">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/posters_and_images"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    </com.google.android.material.chip.ChipGroup>
-                </HorizontalScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/images_detail_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:id="@+id/details_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:outlineProvider="background">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="18dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/details"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/original_title"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/item_originalTitle_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="12dp"
+                        tools:text="This is dummy content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/release_date"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/item_release_detail2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="12dp"
+                        tools:text="This is dummy content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/country_of_origin"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/item_countryOrigin_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="12dp"
+                        tools:text="This is dummy content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/languange_spoken"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/item_language_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="8dp"
+                        tools:text="This is dummy content" />
+
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/divider" />
             </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <ToggleButton
+        android:id="@+id/fav_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/favourite_button"
+        android:elevation="2dp"
+        android:outlineProvider="background"
+        android:text=" "
+        android:textOff=" "
+        android:textOn=" "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="@color/divider" />
-
-            <LinearLayout
-                android:id="@+id/poster_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:outlineProvider="background">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/posters_and_images"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/images_detail_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp" />
-            </LinearLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="@color/divider" />
-
-            <LinearLayout
-                android:id="@+id/details_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:outlineProvider="background">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="18dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/details"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/original_title"
-                    android:textColor="@color/colorPrimaryDark" />
-
-                <TextView
-                    android:id="@+id/item_originalTitle_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="12dp"
-                    tools:text="This is dummy content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/release_date"
-                    android:textColor="@color/colorPrimaryDark" />
-
-                <TextView
-                    android:id="@+id/item_release_detail2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="12dp"
-                    tools:text="This is dummy content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/country_of_origin"
-                    android:textColor="@color/colorPrimaryDark" />
-
-                <TextView
-                    android:id="@+id/item_countryOrigin_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="12dp"
-                    tools:text="This is dummy content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/languange_spoken"
-                    android:textColor="@color/colorPrimaryDark" />
-
-                <TextView
-                    android:id="@+id/item_language_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="8dp"
-                    tools:text="This is dummy content" />
-
-
-            </LinearLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="@color/divider" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>

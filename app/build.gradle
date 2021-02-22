@@ -137,6 +137,11 @@ dependencies {
     // For local unit tests
     testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    // Paging Libray
+    def paging_version = "3.0.0-beta01"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 }
 kapt {
     correctErrorTypes true

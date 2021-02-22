@@ -3,14 +3,13 @@ package com.damar.jetpacksubmission.ui.home
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentHomeBinding
 import com.damar.jetpacksubmission.ui.MainActivity
 import com.damar.jetpacksubmission.ui.home.viewmodel.HomeViewModel
@@ -60,7 +59,7 @@ class HomeFragment : Fragment() {
                 homeVM.nullSelectedTv()
             }
         })
-
+        setHasOptionsMenu(true)
         return binding.root
     }
     companion object {
@@ -70,10 +69,25 @@ class HomeFragment : Fragment() {
         Log.d(TAG, s)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).setToolbar(binding.toolbar, true)
         binding.toolbar.title = "IMovie"
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_favourite -> {
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToFavouriteFragment())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
 
