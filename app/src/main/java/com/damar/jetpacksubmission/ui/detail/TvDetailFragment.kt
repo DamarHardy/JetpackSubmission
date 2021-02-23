@@ -6,15 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentTvDetailBinding
 import com.damar.jetpacksubmission.databinding.PopupLoadingBinding
+import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
+import com.damar.jetpacksubmission.repository.Table
 import com.damar.jetpacksubmission.ui.MainActivity
 import com.damar.jetpacksubmission.ui.detail.adapter.BackdropsAdapter
 import com.damar.jetpacksubmission.ui.detail.adapter.ImagesAdapter
@@ -25,6 +29,7 @@ import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -53,6 +58,39 @@ class TvDetailFragment : Fragment() {
             }
         })
         binding = FragmentTvDetailBinding.inflate(layoutInflater, container, false)
+
+        binding.favButton.setOnClickListener {
+            try{
+                if(binding.favButton.isChecked){
+                    //Write to database
+                    when(val data = detailVm.detail.value){
+                        is DataState.Success -> {
+                            if (data.body is DetailTv){
+                                detailVm.insertFavourite(data.body, Table.FavTv)
+                                Toast.makeText(requireContext(), "Added to Your Favourites :)", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                }else{
+                    //Delete from database
+                    when(val data = detailVm.detail.value){
+                        is DataState.Success -> {
+                            if (data.body is DetailTv){
+                                detailVm.deleteFavourite(data.body.id, Table.FavTv)
+                                Toast.makeText(requireContext(), "Deleted from Your Favourites", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                }
+            }catch (e: Exception){
+                println("Error : ${e.message}")
+            }
+
+        }
+        //Check Favourite State
+        lifecycleScope.launchWhenStarted {
+            binding.favButton.isChecked = detailVm.isFavourite(TvDetailFragmentArgs.fromBundle(requireArguments()).id, Table.FavTv)
+        }
         return binding.root
     }
     private fun updateUI(body: Any) {

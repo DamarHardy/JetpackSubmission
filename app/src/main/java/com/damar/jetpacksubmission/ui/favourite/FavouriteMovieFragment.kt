@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.damar.jetpacksubmission.databinding.FragmentFavouriteMovieBinding
+import com.damar.jetpacksubmission.repository.Table
 import com.damar.jetpacksubmission.ui.favourite.adapter.PagedListAdapter
 import com.damar.jetpacksubmission.ui.favourite.viewmodel.FavouriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +22,14 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
+
 class FavouriteMovieFragment : Fragment() {
+
     private lateinit var binding: FragmentFavouriteMovieBinding
     private lateinit var adapter: PagedListAdapter
     private val viewModel : FavouriteViewModel by activityViewModels()
+
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +42,7 @@ class FavouriteMovieFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.movies.collectLatest {
                 println("$it")
-                adapter.submitData(it)
+                adapter.submitData(it as PagingData<Any>)
             }
         }
         initSwipeToDelete()
@@ -60,8 +66,8 @@ class FavouriteMovieFragment : Fragment() {
             ): Boolean = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                (viewHolder as PagedListAdapter.ViewHolder).item?.let {
-                    //Do Delete File
+                (viewHolder as PagedListAdapter.ViewHolder).itemMovie?.let {
+                    viewModel.deleteFavourite(it.id, Table.FavMovie)
                 }
             }
         }).attachToRecyclerView(binding.favRvMovie)

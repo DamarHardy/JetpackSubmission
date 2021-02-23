@@ -1,11 +1,12 @@
 package com.damar.jetpacksubmission.ui.favourite
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentFavouriteBinding
 import com.damar.jetpacksubmission.ui.MainActivity
 import com.google.android.material.tabs.TabLayoutMediator
@@ -41,7 +42,7 @@ class FavouriteFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).setToolbar(binding.toolbar, true)
+        (activity as MainActivity).setToolbar(binding.toolbar, false)
         binding.toolbar.title = "Favourite"
     }
 }

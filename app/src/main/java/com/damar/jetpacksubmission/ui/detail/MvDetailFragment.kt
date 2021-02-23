@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
@@ -49,6 +51,9 @@ class MvDetailFragment : Fragment() {
             when (it) {
                 is DataState.Error -> {
                     println(it.e)
+                    Toast.makeText(requireContext(), "Error : ${it.e} :(", Toast.LENGTH_SHORT).show()
+                    loadingBuilder.hide()
+                    this.findNavController().navigateUp()
                 }
                 is DataState.Loading -> loadingBuilder.show()
                 is DataState.Success -> {
@@ -64,30 +69,47 @@ class MvDetailFragment : Fragment() {
                 if(binding.favButton.isChecked){
                     //Write to database
                     when(val data = detailVm.detail.value){
-                        is DataState.Error -> println("Error")
-                        is DataState.Loading -> println("Loading")
                         is DataState.Success -> {
                             if(data.body is DetailMv){
                                 detailVm.insertFavourite(data.body, Table.FavMovie)
+                                Toast.makeText(requireContext(), "Added to Your Favourites :)", Toast.LENGTH_LONG).show()
                             }else if (data.body is DetailTv){
                                 detailVm.insertFavourite(data.body, Table.FavTv)
+                                Toast.makeText(requireContext(), "Added to Your Favourites :)", Toast.LENGTH_LONG).show()
                             }
                         }
-                        null -> println("Null")
                     }
-
                 }else{
                     //Delete from database
-                    println("Proceed To Delete")
+                    when(val data = detailVm.detail.value){
+                        is DataState.Success -> {
+                            if(data.body is DetailMv){
+                                detailVm.deleteFavourite(data.body.id, Table.FavMovie)
+                                Toast.makeText(requireContext(), "Deleted from Your Favourites", Toast.LENGTH_LONG).show()
+                            }else if (data.body is DetailTv){
+                                detailVm.deleteFavourite(data.body.id, Table.FavTv)
+                                Toast.makeText(requireContext(), "Deleted from Your Favourites", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
                 }
             }catch (e: Exception){
-                Log.d(TAG, "onCreateView: ${e.message}")
+                println("Error : ${e.message}")
             }
 
         }
+
+        //Check Favourite State
+        lifecycleScope.launchWhenStarted {
+            binding.favButton.isChecked = detailVm.isFavourite(MvDetailFragmentArgs.fromBundle(requireArguments()).id, Table.FavMovie)
+        }
         return binding.root
     }
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).setToolbar(binding.toolbar, false)
+        binding.toolbar.title = "IMovie"
+    }
     private fun updateUI(body: Any) {
         if(body is DetailMv){
             binding.itemTitleDetail.text = body.title
@@ -130,17 +152,12 @@ class MvDetailFragment : Fragment() {
             binding.imagesDetailRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
-
-    companion object {
-        private const val TAG = "MvDetailFragment"
-    }
     private fun println(s: String){
         Log.d(TAG, s)
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).setToolbar(binding.toolbar, false)
-        binding.toolbar.title = "IMovie"
+    companion object {
+        private const val TAG = "MvDetailFragment"
     }
+
+
 }

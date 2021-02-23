@@ -1,20 +1,15 @@
 package com.damar.jetpacksubmission.repository
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.paging.PagingSource
-import com.damar.jetpacksubmission.local.CacheMapperDetailMovieFav
-import com.damar.jetpacksubmission.local.CacheMapperMovie
-import com.damar.jetpacksubmission.local.CacheMapperTv
-import com.damar.jetpacksubmission.local.LocalDao
+import com.damar.jetpacksubmission.local.*
 import com.damar.jetpacksubmission.local.entity.FavMoviesEntity
+import com.damar.jetpacksubmission.local.entity.FavTvsEntity
 import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.network.*
 import com.damar.jetpacksubmission.utils.DataState
-import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -192,15 +187,28 @@ class Repository constructor(
     }.flowOn(dispatcher)
 
     //--Favourite API
-    fun getFavouriteMovie(): PagingSource<Int, FavMoviesEntity> = localRepo.favMoviesPagingSource()
-    fun isFavouriteMovie(id: String) = localRepo.getFavouriteMovies(id)
-    suspend fun deleteFavourite(id: String, table: Table){
+    fun getFavouritePaging(): PagingSource<Int, FavMoviesEntity> = localRepo.favMoviesPagingSource()
+    fun getFavouritePagingTv(): PagingSource<Int, FavTvsEntity> = localRepo.favTvsPagingSource()
+    suspend fun isFavourite(id: Int, table: Table): Boolean{
+        return when(table){
+            Table.FavMovie -> {
+                val lists = localRepo.getFavouriteMovies(id)
+                lists.isNotEmpty()
+            }
+            Table.FavTv -> {
+                val lists = localRepo.getFavouriteTvs(id)
+                lists.isNotEmpty()
+            }
+        }
+
+    }
+    suspend fun deleteFavourite(id: Int, table: Table){
         when(table){
             Table.FavMovie ->{
                 localRepo.deleteFavMovies(id)
             }
             Table.FavTv -> {
-                //Do Something Later
+                localRepo.deleteFavTv(id)
             }
         }
     }
@@ -212,7 +220,9 @@ class Repository constructor(
                 }
             }
             Table.FavTv -> {
-                //Do Something Later
+                if(item is DetailTv){
+                    localRepo.insertFavTv(CacheMapperDetailTvFav.mapToEntity(item))
+                }
             }
         }
     }
