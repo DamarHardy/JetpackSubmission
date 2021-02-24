@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.databinding.FragmentTvDetailBinding
 import com.damar.jetpacksubmission.databinding.PopupLoadingBinding
-import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.network.BASE_IMG_URL
 import com.damar.jetpacksubmission.repository.Table
@@ -29,7 +28,6 @@ import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -112,7 +110,7 @@ class TvDetailFragment : Fragment() {
 
                     val chip1 = Chip(requireContext())
                     chip1.text = item.name
-                    binding.otherChipGenreTv.addView(chip1)
+                    binding.otherGenreChipGroupTv.addView(chip1)
                 }
             }
             binding.itemDescDetail.text = body.overview

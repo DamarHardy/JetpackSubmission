@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Movie Surfer</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="search_user">Find Movies, TV Shows, and Persons..</string>
     <string name="action_favourite">Favourite</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_backdrop">Image Backdrop</string>
     <string name="popular_movies">Popular Movies</string>
     <string name="popular_tv">Popular Tv Show</string>
@@ -28,6 +28,10 @@
     <string name="season_airing_template">Airing %1$s</string>
     <string name="loading_your_data">Loading Your Data..</string>
     <string name="logo">Logo</string>
-    <string name="fetching_data">Fetching Data..</string>
     <string name="no_info">No Information</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows">Tv Shows</string>
+    <string name="people">People</string>
+    <string name="you_don_t_have_any_favourite_movie">No Favourite Movie :(</string>
+    <string name="no_favourite_tv">No Favourite Tv Show yet :(</string>
 </resources>

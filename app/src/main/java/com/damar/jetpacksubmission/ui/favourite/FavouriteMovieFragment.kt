@@ -15,6 +15,7 @@ import com.damar.jetpacksubmission.databinding.FragmentFavouriteMovieBinding
 import com.damar.jetpacksubmission.repository.Table
 import com.damar.jetpacksubmission.ui.favourite.adapter.PagedListAdapter
 import com.damar.jetpacksubmission.ui.favourite.viewmodel.FavouriteViewModel
+import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -42,7 +43,19 @@ class FavouriteMovieFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.movies.collectLatest {
                 println("$it")
+                EspressoIdlingResource.decrement()
                 adapter.submitData(it as PagingData<Any>)
+            }
+        }
+        adapter.addLoadStateListener {
+            if(adapter.itemCount>0){
+                binding.favRvMovie.visibility = View.VISIBLE
+                binding.illustrationText.visibility = View.GONE
+                binding.illustration.visibility = View.GONE
+            }else{
+                binding.favRvMovie.visibility = View.GONE
+                binding.illustrationText.visibility = View.VISIBLE
+                binding.illustration.visibility = View.VISIBLE
             }
         }
         initSwipeToDelete()

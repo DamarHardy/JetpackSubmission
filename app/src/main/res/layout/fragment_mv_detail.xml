@@ -30,7 +30,6 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
-            android:id="@+id/movie_detail_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -41,7 +40,6 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/main_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -80,7 +78,6 @@
                         android:background="@color/divider" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constraintLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -177,7 +174,6 @@
                     android:background="@color/divider" />
 
                 <LinearLayout
-                    android:id="@+id/story_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -186,12 +182,12 @@
                     android:outlineProvider="background">
 
                     <TextView
+                        android:text="@string/storyline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="18dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="@string/storyline"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -247,7 +243,6 @@
                     android:background="@color/divider" />
 
                 <LinearLayout
-                    android:id="@+id/poster_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -283,7 +278,6 @@
                     android:background="@color/divider" />
 
                 <LinearLayout
-                    android:id="@+id/details_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -312,7 +306,7 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:id="@+id/item_originalTitle_detail"
+                        android:id="@+id/item_original_title_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -329,7 +323,7 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:id="@+id/item_release_detail2"
+                        android:id="@+id/item_release_detail_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -346,7 +340,7 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:id="@+id/item_countryOrigin_detail"
+                        android:id="@+id/item_country_origin_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"

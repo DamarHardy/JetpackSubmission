@@ -1,5 +1,7 @@
 package com.damar.jetpacksubmission.di
 
+import com.damar.jetpacksubmission.local.CacheMapperDetailMovieFav
+import com.damar.jetpacksubmission.local.CacheMapperDetailTvFav
 import com.damar.jetpacksubmission.local.LocalDao
 import com.damar.jetpacksubmission.network.IMoviedbAPI
 import com.damar.jetpacksubmission.network.NetworkMapperMvDetail
@@ -24,7 +26,7 @@ object Repository {
             localRepo: LocalDao,
             remoteRepo: IMoviedbAPI,
     ): Repository{
-        return Repository(localRepo,remoteRepo, Dispatchers.IO, NetworkMapperMvDetail, NetworkMapperTvDetail)
+        return Repository(localRepo,remoteRepo, Dispatchers.IO, NetworkMapperMvDetail, NetworkMapperTvDetail, CacheMapperDetailMovieFav, CacheMapperDetailTvFav)
     }
     @Singleton
     @Provides

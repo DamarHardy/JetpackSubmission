@@ -7,10 +7,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.damar.jetpacksubmission.local.CacheMapperMovieFav
-import com.damar.jetpacksubmission.local.CacheMapperTv
 import com.damar.jetpacksubmission.local.CacheMapperTvFav
 import com.damar.jetpacksubmission.repository.Repository
 import com.damar.jetpacksubmission.repository.Table
+import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,6 +31,7 @@ class FavouriteViewModel @Inject constructor(
                     maxSize = 200
             )
     ){
+        EspressoIdlingResource.increment()
         repository.getFavouritePagingTv()
     }.flow.cachedIn(viewModelScope).map { pagingData ->
         pagingData.map {
@@ -45,6 +46,7 @@ class FavouriteViewModel @Inject constructor(
             maxSize = 200
         )
     ){
+        EspressoIdlingResource.increment()
         repository.getFavouritePaging()
     }.flow.cachedIn(viewModelScope).map {pagingData ->
             pagingData.map {

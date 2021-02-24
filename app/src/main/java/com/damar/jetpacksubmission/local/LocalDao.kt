@@ -1,9 +1,10 @@
 package com.damar.jetpacksubmission.local
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.damar.jetpacksubmission.local.entity.FavMoviesEntity
 import com.damar.jetpacksubmission.local.entity.FavTvsEntity
 import com.damar.jetpacksubmission.local.entity.MoviesCacheEntity

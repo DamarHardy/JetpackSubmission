@@ -9,6 +9,7 @@ import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.models.Movie
 import com.damar.jetpacksubmission.models.Tv
 import com.damar.jetpacksubmission.network.*
+import com.damar.jetpacksubmission.network.entity.SearchResultNetworkEntity
 import com.damar.jetpacksubmission.utils.DataState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,9 +23,11 @@ class Repository constructor(
         private val remoteRepo: IMoviedbAPI,
         private val dispatcher: CoroutineDispatcher,
         private val movieMapper: NetworkMapperMvDetail,
-        private val tvMapper: NetworkMapperTvDetail
+        private val tvMapper: NetworkMapperTvDetail,
+        private val cacheMovieMapper: CacheMapperDetailMovieFav,
+        private val cacheTvMapper: CacheMapperDetailTvFav
 ){
-    //--Get FLOW API--
+    //--Home and Detail API--
     suspend fun getTrendingTv(tx : TxType): Flow<DataState<List<Tv>>> = flow {
         emit(DataState.Loading)
         try{
@@ -216,17 +219,33 @@ class Repository constructor(
         when(table){
             Table.FavMovie ->{
                 if(item is DetailMv){
-                    localRepo.insertFavMovie(CacheMapperDetailMovieFav.mapToEntity(item))
+                    localRepo.insertFavMovie(cacheMovieMapper.mapToEntity(item))
                 }
             }
             Table.FavTv -> {
                 if(item is DetailTv){
-                    localRepo.insertFavTv(CacheMapperDetailTvFav.mapToEntity(item))
+                    localRepo.insertFavTv(cacheTvMapper.mapToEntity(item))
                 }
             }
         }
     }
 
+    //--Search API
+    suspend fun getSearchResult(query: String): Flow<DataState<SearchResultNetworkEntity>> = flow{
+        emit(DataState.Loading)
+        try{
+            when(val result = remoteRepo.searchItem(query)){
+                is NetworkResponse.APIError ->{emit(DataState.Error(result.body.message))}
+                is NetworkResponse.NetworkError -> {emit(DataState.Error("${result.error.message}"))}
+                is NetworkResponse.UnknownError -> {emit(DataState.Error("${result.error.message}"))}
+                is NetworkResponse.Success -> {
+                    emit(DataState.Success(result.body))
+                }
+            }
+        }catch (e: Exception){
+            emit(DataState.Error("${e.message}"))
+        }
+    }
 }
 
 sealed class TxType{

@@ -23,7 +23,6 @@
         <Constraint
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:id="@+id/textView6"
             motion:layout_constraintTop_toBottomOf="@+id/imageView4"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
@@ -50,7 +49,6 @@
             motion:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
     <Transition
-        android:id="@+id/middle_state"
         motion:constraintSetStart="@+id/start"
         motion:constraintSetEnd="@+id/middle"
         motion:duration="1000"

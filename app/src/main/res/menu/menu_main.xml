@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.damar.jetpacksubmission.ui.MainActivity">
     <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_round_search_24"
+        android:title="@string/action_favourite"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_favourite"
         android:icon="@drawable/ic_round_favorite_24"
         android:title="@string/action_favourite"

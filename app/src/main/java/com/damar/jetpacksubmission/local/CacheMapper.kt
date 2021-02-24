@@ -1,6 +1,5 @@
 package com.damar.jetpacksubmission.local
 
-import androidx.room.PrimaryKey
 import com.damar.jetpacksubmission.local.entity.FavMoviesEntity
 import com.damar.jetpacksubmission.local.entity.FavTvsEntity
 import com.damar.jetpacksubmission.local.entity.MoviesCacheEntity

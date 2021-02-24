@@ -4,11 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.favourite.FavouriteMovieFragment"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:id="@+id/fav_movie_layout">
+    <ImageView
+        android:id="@+id/illustration"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:contentDescription="@string/image_backdrop"
+        android:src="@drawable/ic_search_illustration" />
+    <TextView
+        android:id="@+id/illustration_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/you_don_t_have_any_favourite_movie"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorPrimaryDark"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fav_rv_movie"/>
+        android:id="@+id/fav_rv_movie"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -73,7 +73,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/item_release_rv"
             app:layout_constraintStart_toStartOf="@+id/item_release_rv"
-            app:srcCompat="@drawable/ic_baseline_star_24" />
+            app:srcCompat="@drawable/ic_baseline_star_24"
+            android:contentDescription="@string/image_backdrop" />
 
         <TextView
             android:id="@+id/item_rating_rv"

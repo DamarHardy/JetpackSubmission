@@ -31,15 +31,13 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/tv_detail_scroll">
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/main_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -78,7 +76,6 @@
                         android:background="@color/divider" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/constraintLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -175,7 +172,6 @@
                     android:background="@color/divider" />
 
                 <LinearLayout
-                    android:id="@+id/story_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -228,7 +224,7 @@
                         android:layout_marginEnd="12dp">
 
                         <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/other_chip_genre_tv"
+                            android:id="@+id/other_genre_chip_group_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:scrollbars="none"
@@ -244,7 +240,6 @@
                     android:layout_height="15dp"
                     android:background="@color/divider"/>
                 <LinearLayout
-                    android:id="@+id/season_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -278,7 +273,6 @@
                     android:layout_height="15dp"
                     android:background="@color/divider"/>
                 <LinearLayout
-                    android:id="@+id/details_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="2dp"
@@ -306,7 +300,7 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:id="@+id/item_originalTitle_detail"
+                        android:id="@+id/item_original_title_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -322,7 +316,7 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:id="@+id/item_release_detail2"
+                        android:id="@+id/item_release_detail_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -338,7 +332,7 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:id="@+id/item_countryOrigin_detail"
+                        android:id="@+id/item_country_origin_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -371,7 +365,6 @@
                     android:background="@color/divider"/>
 
                 <LinearLayout
-                    android:id="@+id/poster_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"

@@ -5,8 +5,10 @@ import com.damar.jetpacksubmission.CoroutinesTestRule
 import com.damar.jetpacksubmission.models.DetailMv
 import com.damar.jetpacksubmission.models.DetailTv
 import com.damar.jetpacksubmission.repository.Repository
+import com.damar.jetpacksubmission.repository.Table
 import com.damar.jetpacksubmission.ui.detail.viewmodel.DetailViewModel
 import com.damar.jetpacksubmission.utils.DataState
+import com.nhaarman.mockitokotlin2.any
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -122,6 +124,84 @@ class DetailViewModelTest{
                 }
             }
             coVerify { repository.getDetailTv(anyInt()) }
+        }
+    }
+    @Test
+    fun isMovieFavouriteTrue(){
+        coEvery { repository.isFavourite(any(), Table.FavMovie) } returns true
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            val result = detailViewModel.isFavourite(any(), Table.FavMovie)
+            coVerify { repository.isFavourite(any(), Table.FavMovie) }
+            assertEquals(result, true)
+        }
+    }
+    @Test
+    fun isMovieFavouriteFalse(){
+        coEvery { repository.isFavourite(any(), Table.FavMovie) } returns false
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            val result = detailViewModel.isFavourite(any(), Table.FavMovie)
+            coVerify { repository.isFavourite(any(), Table.FavMovie) }
+            assertEquals(result, false)
+        }
+    }
+    @Test
+    fun isTvFavouriteTrue(){
+        coEvery { repository.isFavourite(any(), Table.FavTv) } returns true
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            val result = detailViewModel.isFavourite(any(), Table.FavTv)
+            coVerify { repository.isFavourite(any(), Table.FavTv) }
+            assertEquals(result, true)
+        }
+    }
+    @Test
+    fun isTvFavouriteFalse(){
+        coEvery { repository.isFavourite(any(), Table.FavTv) } returns false
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            val result = detailViewModel.isFavourite(any(), Table.FavTv)
+            coVerify { repository.isFavourite(any(), Table.FavTv) }
+            assertEquals(result, false)
+        }
+    }
+    @Test
+    fun insertMovie(){
+        val item: DetailMv = mockk()
+        coEvery { repository.insertFavourite(item, Table.FavMovie) } returns Unit
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.insertFavourite(item, Table.FavMovie)
+            coVerify { repository.insertFavourite(item, Table.FavMovie) }
+        }
+    }
+    @Test
+    fun insertTv(){
+        val item: DetailTv = mockk()
+        coEvery { repository.insertFavourite(item, Table.FavTv) } returns Unit
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.insertFavourite(item, Table.FavTv)
+            coVerify { repository.insertFavourite(item, Table.FavTv) }
+        }
+    }
+    @Test
+    fun deleteMovie(){
+        coEvery { repository.deleteFavourite(anyInt(), Table.FavMovie) } returns Unit
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.deleteFavourite(anyInt(), Table.FavMovie)
+            coVerify { repository.deleteFavourite(anyInt(), Table.FavMovie) }
+        }
+    }
+    @Test
+    fun deleteTv(){
+        coEvery { repository.deleteFavourite(anyInt(), Table.FavTv) } returns Unit
+        detailViewModel = DetailViewModel(repository, coroutineTestRule.testDispatcher)
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            detailViewModel.deleteFavourite(anyInt(), Table.FavTv)
+            coVerify { repository.deleteFavourite(anyInt(), Table.FavTv) }
         }
     }
 }

@@ -86,6 +86,10 @@ class HomeFragment : Fragment() {
                 this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToFavouriteFragment())
                 true
             }
+            R.id.action_search -> {
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -2,6 +2,7 @@ package com.damar.jetpacksubmission.ui.detail
 
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.IdlingRegistry
@@ -16,13 +17,16 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.damar.jetpacksubmission.R
 import com.damar.jetpacksubmission.ui.MainActivity
+import com.damar.jetpacksubmission.ui.favourite.adapter.PagedListAdapter
 import com.damar.jetpacksubmission.ui.home.MvFragmentTest.Companion.selectTabAtPosition
 import com.damar.jetpacksubmission.ui.home.adapter.PopularMovieAdapter
 import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
+import org.hamcrest.MatcherAssert
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -34,6 +38,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MvDetailFragmentTest{
     private var titleMV = ""
+    private lateinit var recyclerView: RecyclerView
 
     @get: Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
@@ -62,7 +67,6 @@ class MvDetailFragmentTest{
         onView(withId(R.id.item_title_detail)).check(matches(withText(titleMV)))
         pressBack()
     }
-
     @Test
     fun test_movie_detail_items() {
         onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(MV_TAB_INDEX))
@@ -96,6 +100,28 @@ class MvDetailFragmentTest{
         onView(withId(R.id.images_detail_rv)).perform(swipeLeft())
 
     }
+    @Test
+    fun addMovieToFavourite(){
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(MV_TAB_INDEX))
+        onView(withId(R.id.mv_layout)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.mv_rv)).check(matches(isDisplayed()))
+        onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(0, scrollTo()))
+        onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(0, getTextRv()))
+        onView(withId(R.id.mv_rv)).perform(actionOnItemAtPosition<PopularMovieAdapter.ViewHolder>(0, click()))
+
+        onView(withId(R.id.fav_button)).perform(click())
+        pressBack()
+        onView(withId(R.id.action_favourite)).perform(click())
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(MV_TAB_INDEX))
+        onView(withId(R.id.fav_rv_movie)).check(matches(isDisplayed()))
+        activityRule.scenario.onActivity {
+            recyclerView = it.findViewById(R.id.fav_rv_movie)
+        }
+        MatcherAssert.assertThat(recyclerView.adapter!!.itemCount > 0, CoreMatchers.`is`(true))
+        onView(withId(R.id.fav_rv_movie)).perform(actionOnItemAtPosition<PagedListAdapter.ViewHolder>(0, swipeLeft()))
+    }
+
 
     private fun getTextRv(): ViewAction{
         return object : ViewAction{

@@ -15,6 +15,7 @@ import com.damar.jetpacksubmission.databinding.FragmentFavouriteTvBinding
 import com.damar.jetpacksubmission.repository.Table
 import com.damar.jetpacksubmission.ui.favourite.adapter.PagedListAdapter
 import com.damar.jetpacksubmission.ui.favourite.viewmodel.FavouriteViewModel
+import com.damar.jetpacksubmission.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -41,7 +42,19 @@ class FavouriteTvFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.tvs.collectLatest {
                 println("$it")
+                EspressoIdlingResource.decrement()
                 adapter.submitData(it as PagingData<Any>)
+            }
+        }
+        adapter.addLoadStateListener {
+            if (adapter.itemCount > 0){
+                binding.favRvTv.visibility = View.VISIBLE
+                binding.illustrationText.visibility = View.GONE
+                binding.illustration.visibility = View.GONE
+            }else{
+                binding.favRvTv.visibility = View.GONE
+                binding.illustrationText.visibility = View.VISIBLE
+                binding.illustration.visibility = View.VISIBLE
             }
         }
 
